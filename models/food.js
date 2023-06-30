@@ -11,7 +11,7 @@ const food = new Schema({
   weight_type: String,
   weight: Number,
   price: Number,
-  image: String,
+  image: [],
   description: String,
   description_uz: String,
   status: {

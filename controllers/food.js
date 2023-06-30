@@ -1,4 +1,6 @@
 const Food = require('../models/food')
+const fs = require('fs')
+const { remove_prop } = require('../helpers/helper')
 
 const all_foods = async (req, res) => {
   const per_page = 20
@@ -30,25 +32,42 @@ const create_category = async (req, res) => {
   const food = new Food({title, title_uz, category, weight_type, weight, price, image, description, description_uz, status})
   await food.save()
 
-  res.status(201).json(food)
+  await Food.findById(food._id)
+  .populate({path: 'category', select: 'title'})
+  .then(data => res.status(201).json(data))
 }
 
 const get_food = async (req, res) => {
   await Food.findById(req.params.id).then(data => res.status(200).json(data))
 }
 
+const change_food_status = async (req, res) => {
+  await Food.findByIdAndUpdate(req.params.id, {status: req.params.status})
+  await Food.findById(req.params.id)
+  .populate({path: 'category', select: 'title'})
+  .then(data => res.status(201).json(data))
+}
+
 const edit_food = async (req, res) => {
-  const {_id, title, title_uz, category, weight_type, weight, price, image, description, description_uz, status} = req.body
+  let {_id, title, title_uz, category, weight_type, weight, price, image, description, description_uz, status} = req.body
 
   const find_food = await Food.findOne({$or: [{title}, {title_uz}], _id: {$ne: _id}})
   if (find_food) return res.status(200).json({message: 'Еда с заданными значениями в названиях уже существует.'})
 
+  image = remove_prop(image, 'status')
   await Food.findByIdAndUpdate(_id, {title, title_uz, category, weight_type, weight, price, image, description, description_uz, status})
-  await Food.findById(_id).then(data => res.status(201).json(data))
+  await Food.findById(_id)
+  .populate({path: 'category', select: 'title'})
+  .then(data => res.status(201).json(data))
 }
 
 const delete_food = async (req, res) => {
-  await Food.findByIdAndDelete(req.params.id).then(() => res.status(200).json({message: 'Удалено.'}))
+  await Food.findByIdAndDelete(req.params.id).then((data) =>{
+    if (fs.existsSync(data.image[0].url)) {
+      fs.unlinkSync(data.image[0].url)
+    }
+    res.status(200).json({message: 'Удалено.'})
+  })
 }
 
 
@@ -56,6 +75,7 @@ module.exports = {
   all_foods,
   create_category,
   get_food,
+  change_food_status,
   edit_food,
   delete_food
 }

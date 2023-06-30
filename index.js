@@ -12,7 +12,7 @@ app.use(upload())
 
 // require('./bot/bot')
 
-app.use('/images',express.static('files'))
+app.use('/files',express.static('files'))
 app.use(routers)
 
 mongoose.set('strictQuery', false);
