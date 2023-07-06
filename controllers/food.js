@@ -29,23 +29,24 @@ const create_category = async (req, res) => {
   const find_food = await Food.findOne({$or: [{title}, {title_uz}]})
   if (find_food) return res.status(200).json({message: 'Еда с заданными значениями в названиях уже существует.'})
 
-  const food = new Food({title, title_uz, category, weight_type, weight, price, image, description, description_uz, status})
-  await food.save()
+  const new_food = new Food({title, title_uz, category, weight_type, weight, price, image, description, description_uz, status})
+  await new_food.save()
 
-  await Food.findById(food._id)
+  const food = await Food.findById(new_food._id)
   .populate({path: 'category', select: 'title'})
-  .then(data => res.status(201).json(data))
+  res.status(201).json(food)
 }
 
 const get_food = async (req, res) => {
-  await Food.findById(req.params.id).then(data => res.status(200).json(data))
+  const food = await Food.findById(req.params.id)
+  res.status(200).json(food)
 }
 
 const change_food_status = async (req, res) => {
   await Food.findByIdAndUpdate(req.params.id, {status: req.params.status})
-  await Food.findById(req.params.id)
+  const food = await Food.findById(req.params.id)
   .populate({path: 'category', select: 'title'})
-  .then(data => res.status(201).json(data))
+  res.status(200).json(food)
 }
 
 const edit_food = async (req, res) => {
@@ -56,18 +57,17 @@ const edit_food = async (req, res) => {
 
   image = remove_prop(image, 'status')
   await Food.findByIdAndUpdate(_id, {title, title_uz, category, weight_type, weight, price, image, description, description_uz, status})
-  await Food.findById(_id)
+  const food = await Food.findById(_id)
   .populate({path: 'category', select: 'title'})
-  .then(data => res.status(201).json(data))
+  res.status(201).json(food)
 }
 
 const delete_food = async (req, res) => {
-  await Food.findByIdAndDelete(req.params.id).then((data) =>{
-    if (fs.existsSync(data.image[0].url)) {
-      fs.unlinkSync(data.image[0].url)
-    }
-    res.status(200).json({message: 'Удалено.'})
-  })
+  const food = await Food.findByIdAndDelete(req.params.id)
+  if (fs.existsSync(food.image[0].url)) {
+    fs.unlinkSync(food.image[0].url)
+  }
+  res.status(200).json({message: 'Удалено.'})
 }
 
 

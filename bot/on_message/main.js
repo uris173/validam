@@ -33,16 +33,14 @@ const user_language = async (user_data, chatId, text) => {
   let language = text === 'Русский 🇷🇺' ? 'ru' : 'uz'
   await User.findByIdAndUpdate(user_data._id, {language})
 
-  User.findById(user_data._id)
-  .then(data => {
-    let res = translation_assistant(data.language)
+  const user = User.findById(user_data._id)
+  let res = translation_assistant(user.language)
 
-    bot.sendMessage(chatId, res.translate.choose_interests_you, {
-      reply_markup: {
-        keyboard: res.kb,
-        resize_keyboard: true
-      }
-    })
+  bot.sendMessage(chatId, res.translate.choose_interests_you, {
+    reply_markup: {
+      keyboard: res.kb,
+      resize_keyboard: true
+    }
   })
 }
 
