@@ -31,7 +31,8 @@ const create_category = async (req, res) => {
 }
 
 const get_category = async (req, res) => {
-  await Category.findById(req.params.id).then(data => res.status(200).json(data))
+  const category = await Category.findById(req.params.id)
+  res.status(200).json(category)
 }
 
 const edit_category = async (req, res) => {
@@ -41,17 +42,20 @@ const edit_category = async (req, res) => {
   if (find_category) return res.status(200).json({message: `Категория с таким уникальным названием "${slug}" уже есть`})
 
   await Category.findByIdAndUpdate(_id, {title, title_uz, slug, status})
-  await Category.findById(_id).then(data => res.status(201).json(data))
+  const category = await Category.findById(_id)
+  res.status(201).json(category)
 }
 
 const change_status = async (req, res) => {
   const {id, status} = req.params
   await Category.findByIdAndUpdate(id, {status})
-  await Category.findById(id).then(data => res.status(200).json(data))
+  const category = await Category.findById(id)
+  res.status(200).json(category)
 }
 
 const delete_category = async (req, res) => {
-  await Category.findByIdAndDelete(req.params.id).then(() => res.status(200).json({message: 'Категория удалена.'}))
+  await Category.findByIdAndDelete(req.params.id)
+  res.status(200).json({message: 'Категория удалена.'})
 }
 
 

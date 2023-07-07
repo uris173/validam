@@ -2,7 +2,6 @@ const User = require('../../models/users')
 const { bot } = require("../bot")
 const { translation_assistant } = require('../options/helpers')
 const Review = require('../../models/review')
-// const { menu_kb_ru, menu_kb_uz } = require('../options/keyboards')
 
 
 const start = async (msg, chatId) => {
@@ -87,7 +86,7 @@ const review = async (user_data, text, commands, chatId) => {
   const review = await Review.findOne({user: user_data._id, status: 0})
   await Review.findByIdAndUpdate(review._id, {text: text, status: 1})
   await User.findByIdAndUpdate(user_data._id, {action: ''})
-  bot.sendMessage(chatId, res.translate.thanks_for_rate, {
+  bot.sendMessage(chatId, res.translate.choose_interests_you, {
     reply_markup: {
       keyboard: res.kb,
       resize_keyboard: true
