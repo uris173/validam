@@ -13,12 +13,14 @@ function sliceIntoChunks(arr, chunkSize) {
   }
   return res;
 }
-
+const commands = ['/start', 'Меню 📋', 'Контакты 📞', 'Оставить отзыв ✍️', 'Корзина 🧺', 'Настройки ⚙️', "Menyu 📋", "Kontaktlar 📞", "Fikr qoldiring ✍️", "Savat 🧺", "Sozlamalar ⚙️"]
 
 module.exports = {
   bot,
-  sliceIntoChunks
+  sliceIntoChunks,
+  commands
 }
 
 
 require('./branches/on.message')
+require('./branches/callback')

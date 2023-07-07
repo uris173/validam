@@ -1,9 +1,11 @@
 const User = require('../../models/users')
-const { ru, uz } = require('../options/transates')
-const { bot } = require('../bot')
+const { bot, commands } = require('../bot')
 const {
   start,
-  user_language
+  user_language,
+  contacts,
+  leave_feedback,
+  review
 } = require('../on_message/main')
 
 
@@ -18,7 +20,11 @@ bot.on('message',async msg => {
     
     if (msg.text === 'Русский 🇷🇺' || msg.text === "O'zbek 🇺🇿") 
       user_language(find_user, chatId, msg.text)
-
-    
+    if (msg.text === 'Контакты 📞' || msg.text === "Kontaktlar 📞")
+      contacts(find_user, chatId)
+    if (msg.text === 'Оставить отзыв ✍️' || msg.text === "Fikr qoldiring ✍️")
+      leave_feedback(find_user, chatId)
+    if (find_user.action === 'review') 
+      review(find_user, msg.text, commands, chatId)
   }
 })
