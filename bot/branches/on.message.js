@@ -5,7 +5,8 @@ const {
   user_language,
   contacts,
   leave_feedback,
-  review
+  review,
+  settings
 } = require('../on_message/main')
 
 
@@ -26,5 +27,7 @@ bot.on('message',async msg => {
       leave_feedback(find_user, chatId)
     if (find_user.action === 'review') 
       review(find_user, msg.text, commands, chatId)
+    if (msg.text === 'Настройки ⚙️' || msg.text === "Sozlamalar ⚙️")
+      settings(msg, chatId)
   }
 })

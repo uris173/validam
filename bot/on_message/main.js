@@ -94,11 +94,24 @@ const review = async (user_data, text, commands, chatId) => {
   })
 }
 
+const settings = async (user_data, chatId) => {
+  let res = translation_assistant(user_data.language)
+  bot.sendMessage(chatId, res.translate.choose_language, {
+    reply_markup: {
+      keyboard: [
+        ['Русский 🇷🇺', "O'zbek 🇺🇿"]
+      ],
+      resize_keyboard: true
+    }
+  })
+}
+
 
 module.exports = {
   start,
   user_language,
   contacts,
   leave_feedback,
-  review
+  review,
+  settings
 }

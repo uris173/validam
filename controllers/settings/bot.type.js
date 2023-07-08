@@ -18,9 +18,15 @@ const change_type_status = async (req, res) => {
   res.status(200).json(bot_type)
 }
 
+const delete_bot_type = async (req, res) => {
+  await Bot_Type.findByIdAndDelete(req.params.id)
+  res.status(200).json('Bot type deleted!')
+}
+
 
 module.exports = {
   all_types,
   create_bot_type,
-  change_type_status
+  change_type_status,
+  delete_bot_type
 }
