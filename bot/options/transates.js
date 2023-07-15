@@ -5,7 +5,10 @@ const ru = {
   rate_our_work: 'оцените нашу работу от 1 🌟 до 5 🌟.',
   not_write_review: 'Вы не написали свой отзыв... <b>Напишите свой отзыв</b>',
   thanks_for_rate: 'Спасибо за ваш отзыв, оно помогает нам развиваться! Выберите действие...',
-  choose_language: 'Выберите язык.'
+  choose_category: 'Выберите категорию...',
+  empty_food: 'Тут пока пусто 😶',
+  back_answer: 'Вы дошли до конца списка.',
+  empty_answer: 'Вы дошли до начала списка.'
 }
 
 const uz = {
@@ -15,7 +18,10 @@ const uz = {
   rate_our_work: "ishimizga 1🌟 dan 5 🌟 gacha baho bering.",
   not_write_review: "Siz sharhingizni yozmadingiz... <b>Sharhingizni yozing</b>>",
   thanks_for_rate: "Fikr-mulohazangiz uchun tashakkur, bu bizning rivojlanishimizga yordam beradi! Amal tanlang...",
-  choose_language: 'Tilni tanlang.'
+  choose_category: "Turkum tanlang...",
+  empty_food: 'Bu yer bo‘sh 😶',
+  back_answer: 'Siz nutqning oxiriga yetdingiz.',
+  empty_answer: 'Siz roʻyxatning yuqori qismiga yetib keldingiz.',
 }
 
 

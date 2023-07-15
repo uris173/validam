@@ -26,8 +26,8 @@ const all_foods = async (req, res) => {
 const create_category = async (req, res) => {
   const {title, title_uz, category, weight_type, weight, price, image, description, description_uz, status} = req.body
 
-  const find_food = await Food.findOne({$or: [{title}, {title_uz}]})
-  if (find_food) return res.status(200).json({message: 'Еда с заданными значениями в названиях уже существует.'})
+  // const find_food = await Food.findOne({$or: [{title}, {title_uz}]})
+  // if (find_food) return res.status(200).json({message: 'Еда с заданными значениями в названиях уже существует.'})
 
   const new_food = new Food({title, title_uz, category, weight_type, weight, price, image, description, description_uz, status})
   await new_food.save()
@@ -52,8 +52,8 @@ const change_food_status = async (req, res) => {
 const edit_food = async (req, res) => {
   let {_id, title, title_uz, category, weight_type, weight, price, image, description, description_uz, status} = req.body
 
-  const find_food = await Food.findOne({$or: [{title}, {title_uz}], _id: {$ne: _id}})
-  if (find_food) return res.status(200).json({message: 'Еда с заданными значениями в названиях уже существует.'})
+  // const find_food = await Food.findOne({$or: [{title}, {title_uz}], _id: {$ne: _id}})
+  // if (find_food) return res.status(200).json({message: 'Еда с заданными значениями в названиях уже существует.'})
 
   image = remove_prop(image, 'status')
   await Food.findByIdAndUpdate(_id, {title, title_uz, category, weight_type, weight, price, image, description, description_uz, status})

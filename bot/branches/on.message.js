@@ -1,5 +1,6 @@
 const User = require('../../models/users')
 const { bot, commands } = require('../bot')
+const Bot_Type = require('../../models/bot.type')
 const {
   start,
   user_language,
@@ -8,6 +9,10 @@ const {
   review,
   settings
 } = require('../on_message/main')
+
+const {
+  pagination_type_category
+} = require('../on_message/pagitation.type')
 
 
 bot.on('message',async msg => {
@@ -18,6 +23,16 @@ bot.on('message',async msg => {
     start(msg, chatId)
 
   if (find_user) {
+    if (msg.text === 'Меню 📋' || msg.text === "Menyu 📋") {
+      let type = await Bot_Type.findOne({status: true})
+
+      if (type.title === 'Пагинация')
+        pagination_type_category(find_user, chatId)
+      if (type.title === 'Обычная')
+        console.log('simple');
+      if (type.title === 'Карточка товара')
+        console.log('card');
+    }
     
     if (msg.text === 'Русский 🇷🇺' || msg.text === "O'zbek 🇺🇿") 
       user_language(find_user, chatId, msg.text)
@@ -28,6 +43,6 @@ bot.on('message',async msg => {
     if (find_user.action === 'review') 
       review(find_user, msg.text, commands, chatId)
     if (msg.text === 'Настройки ⚙️' || msg.text === "Sozlamalar ⚙️")
-      settings(msg, chatId)
+      settings(chatId)
   }
 })

@@ -1,6 +1,5 @@
 const {Schema, model} = require('mongoose')
 
-
 const food = new Schema({
   title: String,
   title_uz: String,
@@ -19,5 +18,6 @@ const food = new Schema({
     default: false
   }
 })
+
 
 module.exports = model('Food', food)

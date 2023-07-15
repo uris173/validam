@@ -94,9 +94,8 @@ const review = async (user_data, text, commands, chatId) => {
   })
 }
 
-const settings = async (user_data, chatId) => {
-  let res = translation_assistant(user_data.language)
-  bot.sendMessage(chatId, res.translate.choose_language, {
+const settings = async (chatId) => {
+  bot.sendMessage(chatId, "Выберите язык.\nTilni tanlang.", {
     reply_markup: {
       keyboard: [
         ['Русский 🇷🇺', "O'zbek 🇺🇿"]

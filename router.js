@@ -11,4 +11,7 @@ router.use('/user', require('./routers/users'))
 // settings
 router.use('/bottype', require('./routers/settings/bot.type'))
 
+// api
+router.use('/api', require('./routers/api'))
+
 module.exports = router
