@@ -1,7 +1,7 @@
 const Food = require('../../models/food')
 const url = 'http://localhost:3000'
 const axios = require('axios')
-const { translation_assistant } = require('../options/helpers')
+const { translation_assistant, card } = require('../options/helpers')
 const {
   bot,
   sliceIntoChunks
@@ -69,7 +69,6 @@ const pagintation_callback_category = async (query, user_data, chatId) => {
 
 const callback_next = async (query, user_data, chatId) => {
   const callback = JSON.parse(query.data)
-  console.log(callback);
   let response = await axios.get(`${url}/api/category/${callback.category}?page=${callback.next}`)
   if (response.status === 200) {
     let food = response.data.food
@@ -123,8 +122,39 @@ const callback_next = async (query, user_data, chatId) => {
   }
 }
 
+const pagination_callback_food = async (query, user_data, chatId) => {
+  bot.answerCallbackQuery((query.id)).then(async () => {
+    const callback = JSON.parse(query.data)
+    let food = await Food.findById(callback.food)
+    let food_card = card(food, user_data.language)
+    bot.deleteMessage(chatId, query.message.message_id)
+    let res = translation_assistant(user_data.language)
+
+    let count = 1
+    bot.sendPhoto(chatId, food_card.img, {
+      parse_mode: 'HTML',
+      caption: food_card.info,
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {text: '➖', callback_data: JSON.stringify({decrease: food._id, count: count, next: callback.next})},
+            {text: count, callback_data: ' '},
+            {text: '➕', callback_data: JSON.stringify({increase: food._id, count: count, next: callback.next})}
+          ],
+          [
+            {text: res.translate.back, callback_data: JSON.stringify({category: food.category, next: callback.next})},
+            {text: res.translate.to_cart, callback_data: JSON.stringify({to_cart: food._id, count})}
+          ],
+          [{text: res.translate.go_to_cart, callback_data: 'go to cart'}]
+        ]
+      }
+    })
+  })
+}
+
 
 module.exports = {
   pagintation_callback_category,
-  callback_next
+  callback_next,
+  pagination_callback_food
 }

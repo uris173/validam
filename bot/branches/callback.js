@@ -6,7 +6,8 @@ const {
 } = require('../callbacks/main')
 const {
   pagintation_callback_category,
-  callback_next
+  callback_next,
+  pagination_callback_food
 } = require('../callbacks/pagitation.type')
 
 
@@ -24,4 +25,6 @@ bot.on('callback_query', async query => {
     pagintation_callback_category(query, find_user, chatId)
   if (data.slice(2, 6) === 'next')
     callback_next(query, find_user, chatId)
+  if(data.slice(2, 6) === 'food')
+    pagination_callback_food(query, find_user, chatId)
 })

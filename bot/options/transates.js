@@ -1,5 +1,7 @@
 const ru = {
   back: 'Назад ◀️',
+  to_cart: "Добавить в корзину 🧺",
+  go_to_cart: 'Перейти в корзину 🛒',
   choose_interests_you: 'Выберите то, что вас интересует.',
   contact_with_us: `<b>Для связи с нами вы можете написать или позвонить нам.</b>\nТелеграм: <i>@of_Astora</i>\nКонтакт: <i>+998(99)862-16-26</i>`,
   rate_our_work: 'оцените нашу работу от 1 🌟 до 5 🌟.',
@@ -13,6 +15,8 @@ const ru = {
 
 const uz = {
   back: 'Orqaga ◀️',
+  to_cart: "Savatchaga qo'shish 🧺",
+  go_to_cart: "Savatga o'ting 🛒",
   choose_interests_you: "Sizni qiziqtirgan narsani tanlang.",
   contact_with_us: "<b>Biz bilan bog'lanish uchun bizga qo'ng'iroq qilishingiz yoki yozishingiz mumkin.</b>\nTelegram: <i>@of_Astora</i>\nBog'lanish: <i>+998(99)862-16-26</i>",
   rate_our_work: "ishimizga 1🌟 dan 5 🌟 gacha baho bering.",
