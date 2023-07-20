@@ -12,15 +12,13 @@ const card = (product, language) => {
 
   let title = language === 'ru' ? product.title : product.title_uz
   let weight_type = language === 'ru' ? product.weight_type : product.weight_type === 'гр' ? 'gr' : 'kg'
-  let price = `<pre>${product.price}</pre> ${language === 'ru' ? 'сум' : "so'm"}`
-  let description = language === 'ru' ? product.description : product.description_uz
-  // if (language === 'ru') {
-  //   weight_type = product.weight_type
-  // } else {
-  //   weight_type = product.weight_type === 'гр' ? 'gr' : 'kg'
-  // }
   let weight = `${product.weight} ${weight_type}.`
-  let info = `<b>${title}</b>\n\n${weight}\n<i>${description}</i>\n${price}`
+
+  let price_str = language === 'ru' ? 'сум' : "so'm"
+  let price = `<u>${product.price.toLocaleString('fr')}</u> ${price_str}`
+  let description = language === 'ru' ? product.description : product.description_uz
+
+  let info = `<b>Название еды: </b>${title}\n<b>Вес:</b> ${weight}\n\n<b>Описание:</b>\n<i>${description}</i>\n\n<b>Цена:</b> ${price}`
 
   return {img, info}
 }

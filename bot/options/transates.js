@@ -10,7 +10,8 @@ const ru = {
   choose_category: 'Выберите категорию...',
   empty_food: 'Тут пока пусто 😶',
   back_answer: 'Вы дошли до конца списка.',
-  empty_answer: 'Вы дошли до начала списка.'
+  empty_answer: 'Вы дошли до начала списка.',
+  decrease_inline: 'Минимальное кол-во 1.',
 }
 
 const uz = {
@@ -26,6 +27,7 @@ const uz = {
   empty_food: 'Bu yer bo‘sh 😶',
   back_answer: 'Siz nutqning oxiriga yetdingiz.',
   empty_answer: 'Siz roʻyxatning yuqori qismiga yetib keldingiz.',
+  decrease_inline: 'Minimal miqdor 1.',
 }
 
 

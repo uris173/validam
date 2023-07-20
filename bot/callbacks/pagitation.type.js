@@ -137,9 +137,9 @@ const pagination_callback_food = async (query, user_data, chatId) => {
       reply_markup: {
         inline_keyboard: [
           [
-            {text: '➖', callback_data: JSON.stringify({decrease: food._id, count: count, next: callback.next})},
+            {text: '➖', callback_data: JSON.stringify({decrease: food._id, count: count, next: callback.next})}, // decrease
             {text: count, callback_data: ' '},
-            {text: '➕', callback_data: JSON.stringify({increase: food._id, count: count, next: callback.next})}
+            {text: '➕', callback_data: JSON.stringify({increase: food._id, count: count, next: callback.next})} // increase
           ],
           [
             {text: res.translate.back, callback_data: JSON.stringify({category: food.category, next: callback.next})},
