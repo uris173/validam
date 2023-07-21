@@ -33,7 +33,7 @@ const decrease = async (query, user_data, chatId) => {
   } else {
     bot.answerCallbackQuery(query.id).then(async () => {
       let bot_type = await Bot_Type.findOne({status: true})
-      let back_type = bot_type.title === 'Пагинация' ? JSON.stringify({category: food.category, next: callback.next}) : ''
+      let back_type = bot_type.title === 'Пагинация' ? JSON.stringify({back: food.category, next: callback.next}) : ''
 
       callback.count = callback.count === 1 ? callback.count : callback.count -= 1
       await Storage.findByIdAndUpdate(storage._id, {count: callback.count})
@@ -63,7 +63,7 @@ const increase = async (query, user_data, chatId) => {
     let storage = await Storage.findOne({user: user_data._id, product: food?._id})
     
     let bot_type = await Bot_Type.findOne({status: true})
-    let back_type = bot_type.title === 'Пагинация' ? JSON.stringify({category: food.category, next: callback.next}) : ''
+    let back_type = bot_type.title === 'Пагинация' ? JSON.stringify({back: food.category, next: callback.next}) : ''
     let res = translation_assistant(user_data.language)
 
     if (storage) {

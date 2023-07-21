@@ -10,6 +10,7 @@ const {
   pagintation_callback_category,
   callback_next,
   pagination_callback_food,
+  back_to_pagination
 } = require('../callbacks/pagitation.type')
 
 
@@ -17,9 +18,7 @@ bot.on('callback_query', async query => {
   const chatId = query.from.id
   const data = query.data
   const find_user = await User.findOne({userId: chatId})
-  // let res = translation_assistant(find_user.language)
   
-  // if (data = res.translate.back)
   if (find_user.action === 'grade')
     callback_grade(query, find_user, chatId)
   
@@ -33,4 +32,6 @@ bot.on('callback_query', async query => {
     decrease(query, find_user, chatId)
   if(data.slice(2, 10) === 'increase') 
     increase(query, find_user, chatId)
+  if(data.slice(2, 6) === 'back')
+    back_to_pagination(query, find_user, chatId)
 })
