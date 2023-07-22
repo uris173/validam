@@ -12,27 +12,28 @@ const pagintation_callback_category = async (query, user_data, chatId) => {
 
   let response = await axios.get(`${url}/api/category/${callback.category}`)
   if (response.status === 200) {
-    let food = response.data.food
+    let product = response.data.product
     let page = response.data.page
 
     let res = translation_assistant(user_data.language)
-    if (food.length === 0) {
-      bot.answerCallbackQuery(query.id, {text: res.translate.empty_food, show_alert: true})
+    if (product.length === 0) {
+      bot.answerCallbackQuery(query.id, {text: res.translate.empty_product, show_alert: true})
     } else {
       bot.answerCallbackQuery((query.id)).then(async () => {
         let list = ''
-        food.forEach((val, index) => {
+        product.forEach((val, index) => {
           let title = user_data.language === 'ru' ? val.title : val.title_uz
-          let weight = `${val.weight} ${val.weight_type}`
+          let weight_type = user_data.language === 'ru' ? val.weight_type : val.weight_type === 'гр.' ? 'gr.' : 'kg.'
+          let weight = `${val.weight} ${weight_type}`
           let price_str = user_data.language === 'ru' ? 'сум' : 'sum'
           list += `<i>${index + 1}</i>) <b>${title}</b>. ${weight} - ${val.price.toLocaleString('fr')} ${price_str}\n`
         })
         
         let array = []
-        food.forEach((val, index) => {
+        product.forEach((val, index) => {
           let obj = {}
           obj.text = index + 1
-          obj.callback_data = JSON.stringify({food: val._id, next: page})
+          obj.callback_data = JSON.stringify({prod: val._id, next: page})
           array.push(obj)
         })
 
@@ -44,7 +45,7 @@ const pagintation_callback_category = async (query, user_data, chatId) => {
             {text: '➡️', callback_data: JSON.stringify({next: page + 1, category: callback.category})}
           ],
           back_btn: [
-            {text: res.translate.back, callback_data: 'back to category'}
+            {text: res.translate.back, callback_data: 'pagination category'}
           ]
         }
 
@@ -68,28 +69,30 @@ const pagintation_callback_category = async (query, user_data, chatId) => {
 }
 
 const callback_next = async (query, user_data, chatId) => {
+  const callback = JSON.parse(query.data)
   let response = await axios.get(`${url}/api/category/${callback.category}?page=${callback.next}`)
   if (response.status === 200) {
-    let food = response.data.food
+    let product = response.data.product
     let res = translation_assistant(user_data.language)
 
-    if (food.length === 0) {
+    if (product.length === 0) {
       bot.answerCallbackQuery(query.id, {text: res.translate.back_answer, show_alert: true})
     } else {
       bot.answerCallbackQuery((query.id)).then(() => {
         let list = ''
-        food.forEach((val, index) => {
+        product.forEach((val, index) => {
           let title = user_data.language === 'ru' ? val.title : val.title_uz
-          let weight = `${val.weight} ${val.weight_type}`
+          let weight_type = user_data.language === 'ru' ? val.weight_type : val.weight_type === 'гр.' ? 'gr.' : 'kg.'
+          let weight = `${val.weight} ${weight_type}`
           let price_str = user_data.language === 'ru' ? 'сум' : 'sum'
           list += `<i>${index + 1}</i>) <b>${title}</b>. ${weight} - ${val.price.toLocaleString('fr')} ${price_str}\n`
         })
 
         let array = []
-        food.forEach((val, index) => {
+        product.forEach((val, index) => {
           let obj = {}
           obj.text = index + 1
-          obj.callback_data = JSON.stringify({food: val._id, next: callback.next})
+          obj.callback_data = JSON.stringify({prod: val._id, next: callback.next})
           array.push(obj)
         })
 
@@ -101,7 +104,7 @@ const callback_next = async (query, user_data, chatId) => {
             {text: '➡️', callback_data: JSON.stringify({next: callback.next + 1, category: callback.category})}
           ],
           back_btn: [
-            {text: res.translate.back, callback_data: 'back to category'}
+            {text: res.translate.back, callback_data: 'pagination category'}
           ]
         }
 
@@ -121,28 +124,28 @@ const callback_next = async (query, user_data, chatId) => {
   }
 }
 
-const pagination_callback_food = async (query, user_data, chatId) => {
+const pagination_callback_product = async (query, user_data, chatId) => {
   bot.answerCallbackQuery((query.id)).then(async () => {
     const callback = JSON.parse(query.data)
-    let food = await Food.findById(callback.food)
-    let food_card = card(food, user_data.language)
+    let product = await Food.findById(callback.prod)
+    let product_card = card(product, user_data.language)
     bot.deleteMessage(chatId, query.message.message_id)
     let res = translation_assistant(user_data.language)
 
     let count = 1
-    bot.sendPhoto(chatId, food_card.img, {
+    bot.sendPhoto(chatId, product_card.img, {
       parse_mode: 'HTML',
-      caption: food_card.info,
+      caption: product_card.info,
       reply_markup: {
         inline_keyboard: [
           [
-            {text: '➖', callback_data: JSON.stringify({decrease: food._id, count: count, next: callback.next})}, // decrease
+            {text: '➖', callback_data: JSON.stringify({decrease: product._id, count: count, next: callback.next})}, // decrease
             {text: count, callback_data: ' '},
-            {text: '➕', callback_data: JSON.stringify({increase: food._id, count: count, next: callback.next})} // increase
+            {text: '➕', callback_data: JSON.stringify({increase: product._id, count: count, next: callback.next})} // increase
           ],
           [
-            {text: res.translate.back, callback_data: JSON.stringify({back: food.category, next: callback.next})},
-            {text: res.translate.to_cart, callback_data: JSON.stringify({to_cart: food._id, count})}
+            {text: res.translate.back, callback_data: JSON.stringify({back: product.category, next: callback.next})},
+            {text: res.translate.to_cart, callback_data: JSON.stringify({to_cart: product._id, count})}
           ],
           [{text: res.translate.go_to_cart, callback_data: 'go to cart'}]
         ]
@@ -155,39 +158,40 @@ const back_to_pagination = async (query, user_data, chatId) => {
   const callback = JSON.parse(query.data)
   let response = await axios.get(`${url}/api/category/${callback.back}?page=${callback.next}`)
   if (response.status === 200) {
-    let food = response.data.food
+    let product = response.data.product
     let res = translation_assistant(user_data.language)
 
-    if (food.length === 0) {
+    if (product.length === 0) {
       bot.answerCallbackQuery(query.id, {text: res.translate.back_answer, show_alert: true})
     } else {
       bot.deleteMessage(chatId, query.message.message_id)
       bot.answerCallbackQuery((query.id)).then(() => {
         let list = ''
-        food.forEach((val, index) => {
+        product.forEach((val, index) => {
           let title = user_data.language === 'ru' ? val.title : val.title_uz
-          let weight = `${val.weight} ${val.weight_type}`
+          let weight_type = user_data.language === 'ru' ? val.weight_type : val.weight_type === 'гр.' ? 'gr.' : 'kg.'
+          let weight = `${val.weight} ${weight_type}`
           let price_str = user_data.language === 'ru' ? 'сум' : 'sum'
           list += `<i>${index + 1}</i>) <b>${title}</b>. ${weight} - ${val.price.toLocaleString('fr')} ${price_str}\n`
         })
 
         let array = []
-        food.forEach((val, index) => {
+        product.forEach((val, index) => {
           let obj = {}
           obj.text = index + 1
-          obj.callback_data = JSON.stringify({food: val._id, next: callback.next})
+          obj.callback_data = JSON.stringify({prod: val._id, next: callback.next})
           array.push(obj)
         })
 
         let sliced_val = sliceIntoChunks(array, 5)
         let pagination = {
           pagination_btn: [
-            {text: '⬅️', callback_data: JSON.stringify({next: callback.next === 0 ? callback.next = 0 : callback.next - 1, category: callback.category})},
+            {text: '⬅️', callback_data: JSON.stringify({next: callback.next === 0 ? callback.next = 0 : callback.next - 1, category: callback.back})},
             {text: `${callback.next === 0 ? 1 : callback.next + 1}`, callback_data: ' '},
-            {text: '➡️', callback_data: JSON.stringify({next: callback.next + 1, category: callback.category})}
+            {text: '➡️', callback_data: JSON.stringify({next: callback.next + 1, category: callback.back})}
           ],
           back_btn: [
-            {text: res.translate.back, callback_data: 'back to category'}
+            {text: res.translate.back, callback_data: 'pagination category'}
           ]
         }
 
@@ -204,9 +208,10 @@ const back_to_pagination = async (query, user_data, chatId) => {
 }
 
 
+
 module.exports = {
   pagintation_callback_category,
   callback_next,
-  pagination_callback_food,
-  back_to_pagination
+  pagination_callback_product,
+  back_to_pagination,
 }

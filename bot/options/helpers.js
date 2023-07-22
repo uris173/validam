@@ -10,15 +10,17 @@ const translation_assistant = (lang) => {
 const card = (product, language) => {
   let img = 'https://images4.alphacoders.com/655/655929.png' // product.image[0].url
 
-  let title = language === 'ru' ? product.title : product.title_uz
-  let weight_type = language === 'ru' ? product.weight_type : product.weight_type === 'гр' ? 'gr' : 'kg'
+  let title = language === 'ru' ? `<b>Название еды:</b> ${product.title}` : `<b>Taom nomi:</b> ${product.title_uz}`
+  let weight_type = language === 'ru' ? product.weight_type : product.weight_type === 'гр.' ? 'gr.' : 'kg.'
   let weight = `${product.weight} ${weight_type}.`
+  weight = language === 'ru' ? `<b>Вес:</b> ${weight}` : `<b>Vazn:</b> ${weight}`
 
   let price_str = language === 'ru' ? 'сум' : "so'm"
   let price = `<u>${product.price.toLocaleString('fr')}</u> ${price_str}`
-  let description = language === 'ru' ? product.description : product.description_uz
+  price = language === 'ru' ? `<b>Цена:</b> ${price}` : `<b>Narxi:</b> ${price}`
+  let description = language === 'ru' ? `<b>Описание:</b>\n<i>${product.description}</i>` : `<b>Tavsif:</b>\n<i>${product.description_uz}</i>`
 
-  let info = `<b>Название еды: </b>${title}\n<b>Вес:</b> ${weight}\n\n<b>Описание:</b>\n<i>${description}</i>\n\n<b>Цена:</b> ${price}`
+  let info = `${title}\n${weight}\n\n${description}\n\n${price}`
 
   return {img, info}
 }

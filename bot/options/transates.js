@@ -8,10 +8,12 @@ const ru = {
   not_write_review: 'Вы не написали свой отзыв... <b>Напишите свой отзыв</b>',
   thanks_for_rate: 'Спасибо за ваш отзыв, оно помогает нам развиваться! Выберите действие...',
   choose_category: 'Выберите категорию...',
-  empty_food: 'Тут пока пусто 😶',
+  empty_product: 'Тут пока пусто 😶',
   back_answer: 'Вы дошли до конца списка.',
   empty_answer: 'Вы дошли до начала списка.',
   decrease_inline: 'Минимальное кол-во 1.',
+  added_product: 'Еда добавлена в корзину. Кол-во:',
+  choose_product: "Выберите еду..."
 }
 
 const uz = {
@@ -24,10 +26,12 @@ const uz = {
   not_write_review: "Siz sharhingizni yozmadingiz... <b>Sharhingizni yozing</b>>",
   thanks_for_rate: "Fikr-mulohazangiz uchun tashakkur, bu bizning rivojlanishimizga yordam beradi! Amal tanlang...",
   choose_category: "Turkum tanlang...",
-  empty_food: 'Bu yer bo‘sh 😶',
+  empty_product: 'Bu yer bo‘sh 😶',
   back_answer: 'Siz nutqning oxiriga yetdingiz.',
   empty_answer: 'Siz roʻyxatning yuqori qismiga yetib keldingiz.',
   decrease_inline: 'Minimal miqdor 1.',
+  added_product: "Ovqat savatga qo'shildi. Miqdor:",
+  choose_product: "Ovqatni tanlang..."
 }
 
 
