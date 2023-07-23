@@ -105,6 +105,18 @@ const settings = async (chatId) => {
   })
 }
 
+const main_menu = async (user_data, chatId) => {
+  await User.findByIdAndUpdate(user_data._id, {action: ''})
+  let res = translation_assistant(user_data.language)
+
+  bot.sendMessage(chatId, res.translate.choose_interests_you, {
+    reply_markup: {
+      keyboard: res.kb,
+      resize_keyboard: true
+    }
+  })
+}
+
 
 module.exports = {
   start,
@@ -112,5 +124,6 @@ module.exports = {
   contacts,
   leave_feedback,
   review,
-  settings
+  settings,
+  main_menu
 }

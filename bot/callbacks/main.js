@@ -70,15 +70,14 @@ const decrease = async (query, user_data, chatId) => {
 const increase = async (query, user_data, chatId) => {
   bot.answerCallbackQuery(query.id).then(async () => {
     let callback = JSON.parse(query.data)
-    console.log(callback, 'da');
     callback.count += 1
     const product = await Food.findById(callback.increase)
     let storage = await Storage.findOne({user: user_data._id})
     
     let bot_type = await Bot_Type.findOne({status: true})
-    let back_type = bot_type.title === 'Пагинация' ? JSON.stringify({back: product.category, next: callback.next}) : bot_type.title === 'Карточка товара' ? 'card category' : ''
-    let res = translation_assistant(user_data.language)
+    let back_type = bot_type.title === 'Пагинация' ? JSON.stringify({back: product.category, next: callback.next}) : bot_type.title === 'Карточка товара' ? 'card category' : bot_type.title === 'Обычная' ? JSON.stringify({simple: product.category}) : ' '
 
+    let res = translation_assistant(user_data.language)
     if (storage) {
       await Storage.findByIdAndUpdate(storage._id, {product: product._id, count: callback.count})
       bot.editMessageReplyMarkup({

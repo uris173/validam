@@ -34,7 +34,6 @@ const {
 bot.on('callback_query', async query => {
   const chatId = query.from.id
   const data = query.data
-  console.log(data);
   const find_user = await User.findOne({userId: chatId})
   if (find_user.action === 'grade')
     callback_grade(query, find_user, chatId)

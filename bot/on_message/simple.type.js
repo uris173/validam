@@ -38,6 +38,25 @@ const simple_category_products = async (msg, user_data, chatId) => {
   .sort({_id: -1})
   let res = translation_assistant(user_data.language)
   let array = []
+
+  if (product.length === 0) {
+    let category = await Category.find({status: true})
+    await User.findByIdAndUpdate(user_data._id, {action: 'choose category'})
+
+    category.forEach(val => {
+      let text = user_data.language === 'ru' ? val.title : val.title_uz
+      array.push(text)
+    })
+
+    let sliced_val = sliceIntoChunks(array, 2)
+    sliced_val.push([res.translate.back])
+    return bot.sendMessage(chatId, res.translate.empty_product, {
+      reply_markup: {
+        keyboard: sliced_val,
+        resize_keyboard: true
+      }
+    })
+  }
   await User.findByIdAndUpdate(user_data._id, {action: 'choose product'})
 
   product.forEach(val => {
@@ -59,11 +78,10 @@ const simple_product = async (msg, user_data, chatId) => {
   const text = msg.text
   const product = await Food.findOne({$or: [{title: text}, {title_uz: text}]})
   let product_card = card(product, user_data.language)
-
   let res = translation_assistant(user_data.language)
 
   let count = 1
-  bot.sendMessage(chatId, `Товар - ${product.title}`, {
+  await bot.sendMessage(chatId, `Товар - ${product.title}`, {
     reply_markup: {
       remove_keyboard: true,
       one_time_keyboard: true
@@ -87,7 +105,7 @@ const simple_product = async (msg, user_data, chatId) => {
       ]
     }
   })
-}
+} 
 
 module.exports = {
   simple_type_category,

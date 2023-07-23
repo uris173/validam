@@ -7,7 +7,8 @@ const {
   contacts,
   leave_feedback,
   review,
-  settings
+  settings,
+  main_menu
 } = require('../on_message/main')
 
 // pagination type
@@ -25,6 +26,7 @@ const {
   simple_category_products,
   simple_product
 } = require('../on_message/simple.type')
+const { translation_assistant } = require('../options/helpers')
 
 
 bot.on('message',async msg => {
@@ -35,6 +37,7 @@ bot.on('message',async msg => {
     start(msg, chatId)
 
   if (find_user) {
+    let res = translation_assistant(find_user.language)
     const product_slice = msg.text.split('-')
 
     if (msg.text === 'Меню 📋' || msg.text === "Menyu 📋") {
@@ -65,9 +68,13 @@ bot.on('message',async msg => {
       card_product(msg, find_user, chatId, product_slice[1])
 
     // simple type
-    if (find_user.action === 'choose category')
+    if (msg.text === res.translate.back && find_user.action === 'choose product')
+      simple_type_category(find_user, chatId)
+    if (msg.text === res.translate.back && find_user.action === 'choose category')
+      main_menu(find_user, chatId)
+    if (find_user.action === 'choose category' && msg.text !== res.translate.back)
       simple_category_products(msg, find_user, chatId)
-    if (find_user.action === 'choose product')
+    if (find_user.action === 'choose product' && msg.text !== res.translate.back)
       simple_product(msg, find_user, chatId)
   }
 })
