@@ -25,7 +25,6 @@ const category_card_products = async (query, user_data, category) => {
       title: user_data.language === 'ru' ? val.title : val.title_uz,
       input_message_content: {
         message_text: `product-${val.id}`,
-        parse_mode: 'HTML',
       },
       description: `${weight}\n${val.price.toLocaleString('fr')} ${price_str}`,
       thumbnail_url: 'https://images4.alphacoders.com/655/655929.png'
