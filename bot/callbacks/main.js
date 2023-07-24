@@ -45,7 +45,7 @@ const decrease = async (query, user_data, chatId) => {
   } else {
     bot.answerCallbackQuery(query.id).then(async () => {
       let bot_type = await Bot_Type.findOne({status: true})
-      let back_type = bot_type.title === 'Пагинация' ? JSON.stringify({back: product.category, next: callback.next}) : bot_type.title === 'Карточка товара' ? 'card category' : ''
+      let back_type = bot_type.title === 'Пагинация' ? JSON.stringify({back: product.category, next: callback.next}) : bot_type.title === 'Карточка товара' ? 'card category' : bot_type.title === 'Обычная' ? JSON.stringify({simple: product.category}) : ' '
 
       callback.count = callback.count === 1 ? callback.count : callback.count -= 1
       await Storage.findByIdAndUpdate(storage._id, {product: product._id, count: callback.count})
