@@ -1,10 +1,10 @@
 const Food = require('../../models/food')
-const url = 'http://localhost:3000'
 const axios = require('axios')
 const { translation_assistant, card } = require('../options/helpers')
 const {
   bot,
-  sliceIntoChunks
+  sliceIntoChunks,
+  url
 } = require('../bot')
 
 const pagintation_callback_category = async (query, user_data, chatId) => {

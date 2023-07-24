@@ -1,10 +1,8 @@
 const Food = require('../../models/food')
-const url = 'http://localhost:3000'
 const axios = require('axios')
 const { translation_assistant, card } = require('../options/helpers')
 const {
   bot,
-  sliceIntoChunks
 } = require('../bot')
 
 const category_card_products = async (query, user_data, category) => {
