@@ -8,7 +8,7 @@ const cart = new Schema({
   products: [{
     product: {
       type: Schema.Types.ObjectId,
-      ref: 'Product'
+      ref: 'Food'
     },
     count: Number,
   }],

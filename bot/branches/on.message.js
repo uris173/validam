@@ -8,6 +8,7 @@ const {
   leave_feedback,
   review,
   settings,
+  cart,
   main_menu
 } = require('../on_message/main')
 
@@ -60,6 +61,8 @@ bot.on('message',async msg => {
       leave_feedback(find_user, chatId)
     if (find_user.action === 'review') 
       review(find_user, msg.text, commands, chatId)
+    if (msg.text === 'Корзина 🧺' || msg.text === 'Savat 🧺')
+      cart(find_user, chatId)
     if (msg.text === 'Настройки ⚙️' || msg.text === "Sozlamalar ⚙️")
       settings(chatId)
 

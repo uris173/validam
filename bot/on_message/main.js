@@ -1,6 +1,7 @@
 const User = require('../../models/users')
+const Cart = require('../../models/cart')
 const { bot } = require("../bot")
-const { translation_assistant } = require('../options/helpers')
+const { translation_assistant, cart_products } = require('../options/helpers')
 const Review = require('../../models/review')
 
 
@@ -93,6 +94,32 @@ const review = async (user_data, text, commands, chatId) => {
     }
   })
 }
+const cart = async (user_data, chatId) => {
+  let cart = await Cart.findOne({user: user_data._id})
+    .populate({path: 'products.product', select: 'title title_uz price'}).lean()
+    let res = translation_assistant(user_data.language)
+
+    if (cart.products.length > 0) {
+      let products = cart_products(cart.products, user_data.language)
+      bot.sendMessage(chatId, products, {
+        parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: [
+            [{text: res.translate.clear, callback_data: 'clear'}],
+            [{text: res.translate.change, callback_data: 'change items'}],
+            [{text: res.translate.order, callback_data: 'order'}],
+            [{text: res.translate.back, callback_data: 'back to menu'}],
+          ]
+        }
+      })
+    } else {
+      bot.sendMessage(chatId, res.translate.empty_cart, {
+        reply_markup: {
+          keyboard: res.kb
+        }
+      })
+    }
+}
 
 const settings = async (chatId) => {
   bot.sendMessage(chatId, "Выберите язык.\nTilni tanlang.", {
@@ -125,5 +152,6 @@ module.exports = {
   leave_feedback,
   review,
   settings,
+  cart,
   main_menu
 }

@@ -13,7 +13,17 @@ const ru = {
   empty_answer: 'Вы дошли до начала списка.',
   decrease_inline: 'Минимальное кол-во 1.',
   added_product: 'Еда добавлена в корзину. Кол-во:',
-  choose_product: "Выберите еду..."
+  choose_product: "Выберите еду...",
+  clear: 'Очистить корзину 🗑',
+  order: 'Оформить заказ 🛍',
+  change: 'Изменить ✍️',
+  empty_cart: 'Корзина пуста 😶',
+  change_actions: 'Выберите действие которое хотите совершить...',
+  action_change_count: 'Изменить количество 🔢',
+  action_remove_item: 'Удалить ❌',
+  change_count: 'Изменеение кол-во.',
+  save: 'Сохранить ✅',
+  count_change_success: "Количество успешно изменено!"
 }
 
 const uz = {
@@ -31,7 +41,17 @@ const uz = {
   empty_answer: 'Siz roʻyxatning yuqori qismiga yetib keldingiz.',
   decrease_inline: 'Minimal miqdor 1.',
   added_product: "Ovqat savatga qo'shildi. Miqdor:",
-  choose_product: "Ovqatni tanlang..."
+  choose_product: "Ovqatni tanlang...",
+  clear: "Savatni bo'shatish 🗑",
+  change: "O'zgartirish ✍️",
+  order: 'Buyurtma berish 🛍',
+  empty_cart: "Savatcha bo‘sh 😶",
+  change_actions: "Amal qilmoqchi bo'lgan amalni tanlang...",
+  action_change_count: "Miqdorni o'zgartirish 🔢",
+  action_remove_item: 'Oʻchirish ❌',
+  change_count: "Miqdorini o'zgartiring.",
+  save: 'Saqlash ✅',
+  count_change_success: "Miqdor muvaffaqiyatli o'zgartirildi!"
 }
 
 

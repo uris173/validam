@@ -5,18 +5,27 @@ const {
   callback_grade,
   decrease,
   increase,
-  add_to_cart
+  add_to_cart,
 } = require('../callbacks/main')
+const {
+  cart_items,
+  clear_cart,
+  change_cart_item,
+  change_count_action,
+  change_product_count,
+  calculate_count,
+  save_count
+} = require('../callbacks/cart')
 
 // pagination
 const {
   pagintation_callback_category,
   callback_next,
   pagination_callback_product,
-  back_to_pagination
+  back_to_pagination,
 } = require('../callbacks/pagitation.type')
 const { 
-  pagination_type_category 
+  pagination_type_category,
 } = require('../on_message/pagitation.type')
 
 // card type
@@ -49,6 +58,24 @@ bot.on('callback_query', async query => {
     back_to_pagination(query, find_user, chatId)
   if (data.slice(2, 9) === 'to_cart')
     add_to_cart(query, find_user, chatId)
+  if (data.slice(2, 6) === 'save')
+    save_count(query, find_user, chatId)
+
+  // cart js
+  if (data === 'go to cart') {
+    bot.deleteMessage(chatId, query.message.message_id)
+    cart_items(query, find_user, chatId)
+  }
+  if (data === 'clear')
+    clear_cart(query, find_user, chatId)
+  if (data === 'change items')
+    change_cart_item(query, find_user, chatId)
+  if (data === 'action change count')
+    change_count_action(query, find_user, chatId)
+  if (data.slice(2, 8) === 'change')
+    change_product_count(query, find_user, chatId)
+  if (data.slice(2, 4) === 'id')
+    calculate_count(query, find_user, chatId)
   
   // pagination type
   if (data.slice(2, 10) === 'category')
