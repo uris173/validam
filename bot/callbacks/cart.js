@@ -194,7 +194,6 @@ const delete_item = async (query, user_data, chatId) => {
       }
     })
   })
-  // bot.answerCallbackQuery(query.id, {text: res.translate.deleted_message, show_alert: true})
 }
 
 
