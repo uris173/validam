@@ -73,6 +73,7 @@ const change_count_action = async (query, user_data, chatId) => {
     bot.editMessageText(`${res.translate.change_count}\n\n${products.list}`, {
       chat_id: chatId,
       message_id: query.message.message_id,
+      parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: sliced_val
       }
@@ -141,6 +142,61 @@ const save_count = async (query, user_data, chatId) => {
   })
 }
 
+const action_delete_item = async (query, user_data, chatId) => {
+  bot.answerCallbackQuery(query.id).then(async () => {
+    let cart = await Cart.findOne({user: user_data._id})
+    .populate({path: 'products.product', select: 'title title_uz price'}).lean()
+    let products = actions_products(cart.products, user_data.language, 'delete item')
+    let res = translation_assistant(user_data.language)
+
+    let sliced_val = sliceIntoChunks(products.array, 1)
+    sliced_val.push([{text: res.translate.back, callback_data: 'change items'}])
+
+    bot.editMessageText(`${res.translate.delete_items}\n\n${products.list}`, {
+      chat_id: chatId,
+      message_id: query.message.message_id,
+      parse_mode: 'HTML',
+      reply_markup: {
+        inline_keyboard: sliced_val
+      }
+    })
+  })
+}
+
+const delete_item = async (query, user_data, chatId) => {
+  let res = translation_assistant(user_data.language)
+  bot.answerCallbackQuery(query.id, {text: res.translate.deleted_message, show_alert: true}).then(async () => {
+    const callback = JSON.parse(query.data)
+    let cart = await Cart.findOne({user: user_data._id})
+    .populate({path: 'products.product', select: 'title title_uz price'}).lean()
+    
+    let new_products_arr = cart.products.filter(val => val._id.toString() !== callback.delete)
+    await Cart.findByIdAndUpdate(cart._id, {products: new_products_arr})
+
+    if (new_products_arr.length === 0) {
+      return bot.sendMessage(chatId, res.translate.empty_cart, {
+        reply_markup: {
+          keyboard: res.kb
+        }
+      })
+    }
+
+    let products = actions_products(new_products_arr, user_data.language, 'delete item')
+    let sliced_val = sliceIntoChunks(products.array, 1)
+    sliced_val.push([{text: res.translate.back, callback_data: 'change items'}])
+
+    bot.editMessageText(`${res.translate.delete_items}\n\n${products.list}`, {
+      chat_id: chatId,
+      message_id: query.message.message_id,
+      parse_mode: 'HTML',
+      reply_markup: {
+        inline_keyboard: sliced_val
+      }
+    })
+  })
+  // bot.answerCallbackQuery(query.id, {text: res.translate.deleted_message, show_alert: true})
+}
+
 
 
 
@@ -151,5 +207,7 @@ module.exports = {
   change_count_action,
   change_product_count,
   calculate_count,
-  save_count
+  save_count,
+  action_delete_item,
+  delete_item
 }

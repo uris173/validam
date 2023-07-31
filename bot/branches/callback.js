@@ -14,7 +14,9 @@ const {
   change_count_action,
   change_product_count,
   calculate_count,
-  save_count
+  save_count,
+  action_delete_item,
+  delete_item
 } = require('../callbacks/cart')
 
 // pagination
@@ -60,6 +62,10 @@ bot.on('callback_query', async query => {
     add_to_cart(query, find_user, chatId)
   if (data.slice(2, 6) === 'save')
     save_count(query, find_user, chatId)
+  if (data === 'action remove item')
+    action_delete_item(query, find_user, chatId)
+  if (data.slice(2, 8) === 'delete')
+    delete_item(query, find_user, chatId)
 
   // cart js
   if (data === 'go to cart') {

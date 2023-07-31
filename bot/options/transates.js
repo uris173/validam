@@ -23,7 +23,9 @@ const ru = {
   action_remove_item: 'Удалить ❌',
   change_count: 'Изменеение кол-во.',
   save: 'Сохранить ✅',
-  count_change_success: "Количество успешно изменено!"
+  count_change_success: "Количество успешно изменено!",
+  delete_items: "Удаление товара из корзины 🗑",
+  deleted_message: "Товар успешно удален из корзины! ✅"
 }
 
 const uz = {
@@ -51,7 +53,9 @@ const uz = {
   action_remove_item: 'Oʻchirish ❌',
   change_count: "Miqdorini o'zgartiring.",
   save: 'Saqlash ✅',
-  count_change_success: "Miqdor muvaffaqiyatli o'zgartirildi!"
+  count_change_success: "Miqdor muvaffaqiyatli o'zgartirildi!",
+  delete_items: "Buyumni savatdan olib tashlash 🗑",
+  deleted_message: "Mahsulot savatdan muvaffaqiyatli olib ochirildi! ✅"
 }
 
 

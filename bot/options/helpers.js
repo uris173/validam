@@ -50,11 +50,12 @@ const actions_products = (products, language, action) => {
 
   products.forEach((element, index) => {
     let title = language === 'ru' ? element.product.title : element.product.title_uz
-    let text = language === 'ru' ? `Название: ${title}` : `Nomi: ${title}`
+    let text = language === 'ru' ? `Название: <b>${title}</b>` : `Nomi: <b>${title}</b>`
     let callback = action === 'change count' ? JSON.stringify({change: element._id}) : JSON.stringify({delete: element._id})
-    let obj = {text: title, callback_data: callback}
+    let callback_text = action === 'change count' ? title : `${title} ❌`
+    let obj = {text: callback_text, callback_data: callback}
     array.push(obj)
-    list += `${index + 1}) ${text} × ${element.count}\n`
+    list += `${index + 1}) ${text} × <b>${element.count}</b>\n`
   })
   return {list, array}
 }
