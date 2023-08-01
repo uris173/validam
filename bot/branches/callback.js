@@ -16,7 +16,8 @@ const {
   calculate_count,
   save_count,
   action_delete_item,
-  delete_item
+  delete_item,
+  order
 } = require('../callbacks/cart')
 
 // pagination
@@ -82,6 +83,10 @@ bot.on('callback_query', async query => {
     change_product_count(query, find_user, chatId)
   if (data.slice(2, 4) === 'id')
     calculate_count(query, find_user, chatId)
+  if (data === 'order') {
+    bot.deleteMessage(chatId, query.message.message_id)
+    order(query, find_user, chatId)
+  }
   
   // pagination type
   if (data.slice(2, 10) === 'category')

@@ -1,7 +1,9 @@
 const Cart = require('../../models/cart')
+const Order = require('../../models/order')
 const User = require('../../models/users')
+const { io } = require('../../index')
 const {
-  cart_products, translation_assistant, actions_products, product_count_info
+  cart_products, translation_assistant, actions_products, product_count_info, get_random_int
 } = require('../options/helpers')
 const {
   bot,
@@ -196,6 +198,37 @@ const delete_item = async (query, user_data, chatId) => {
   })
 }
 
+const order = async (query, user_data, chatId) => {
+  bot.answerCallbackQuery(query.id).then(async () => {
+    let res = translation_assistant(user_data.language)
+
+    if (!user_data.phone) {
+      await User.findByIdAndUpdate(user_data._id, {action: 'request contact'})
+      return bot.sendMessage(chatId, res.translate.request_contact, {
+        reply_markup: {
+          keyboard: [
+            [{text: res.translate.send_contact, request_contact: true}]
+          ],
+          resize_keyboard: true
+        }
+      })
+    }
+
+    const cart = await Cart.findOne({user: user_data._id})
+    let order_num = get_random_int()
+    let find_order_num = await Cart.findOne({order_num})
+    while (find_order_num) {
+      order = get_random_int()
+      find_order_num = await Cart.findOne({order_num})
+    }
+
+    const order = new Order({user: user_data._id, products: cart.products, order_num, status: 0})
+    await order.save()
+    io.emit('new order', order)
+    bot.sendMessage(chatId, `${res.translate.order_accepted} <b>${order_num}</b>`)
+  })
+}
+
 
 
 
@@ -208,5 +241,6 @@ module.exports = {
   calculate_count,
   save_count,
   action_delete_item,
-  delete_item
+  delete_item,
+  order
 }

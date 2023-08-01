@@ -69,11 +69,17 @@ const product_count_info = (product, language) => {
   return text
 }
 
+function get_random_int() {
+  return Math.floor(Math.random() * 100000)
+}
+
+
 
 module.exports = {
   translation_assistant,
   card,
   cart_products,
   actions_products,
-  product_count_info
+  product_count_info,
+  get_random_int
 }

@@ -9,7 +9,8 @@ const {
   review,
   settings,
   cart,
-  main_menu
+  main_menu,
+  get_contact
 } = require('../on_message/main')
 
 // pagination type
@@ -65,6 +66,9 @@ bot.on('message',async msg => {
       cart(find_user, chatId)
     if (msg.text === 'Настройки ⚙️' || msg.text === "Sozlamalar ⚙️")
       settings(chatId)
+
+    if (find_user.action === 'request contact' && msg.contact || msg.text.slice(0, 3) === '998' || msg.text.slice(0, 4) === '+998') 
+      get_contact(msg, find_user, chatId)
 
     // card type
     if (product_slice[0] === 'product')

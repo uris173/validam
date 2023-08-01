@@ -12,7 +12,7 @@ const order = new Schema({
     },
     count: Number,
   }],
-  comment: String,
+  order_num: Number,
   status: {
     type: Number,
     default: 0

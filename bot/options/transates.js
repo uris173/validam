@@ -25,7 +25,11 @@ const ru = {
   save: 'Сохранить ✅',
   count_change_success: "Количество успешно изменено!",
   delete_items: "Удаление товара из корзины 🗑",
-  deleted_message: "Товар успешно удален из корзины! ✅"
+  deleted_message: "Товар успешно удален из корзины! ✅",
+  request_contact: 'Отправьте номер телефона 📱',
+  send_contact: 'Отправить номер телефона 📞',
+  order_accepted: 'Заказ успешно оформлен. Заказ будет готов в течении 15-20 минут. Или же ждите уведомление о том, что Ваш заказ готов. Номер заказа:',
+  datas_updated: 'Данные успешно обновлены! ✅'
 }
 
 const uz = {
@@ -55,7 +59,11 @@ const uz = {
   save: 'Saqlash ✅',
   count_change_success: "Miqdor muvaffaqiyatli o'zgartirildi!",
   delete_items: "Buyumni savatdan olib tashlash 🗑",
-  deleted_message: "Mahsulot savatdan muvaffaqiyatli olib ochirildi! ✅"
+  deleted_message: "Mahsulot savatdan muvaffaqiyatli olib ochirildi! ✅",
+  request_contact: 'Telefon raqamingizni yuboring 📱',
+  send_contact: 'Telefon raqamni yuborish 📞',
+  order_accepted: "Buyurtma muvaffaqiyatli joylashtirildi. Buyurtma 15-20 daqiqada tayyor bo'ladi. Yoki buyurtmangiz tayyorligi haqida bildirishnomani kuting. Buyurtma raqami:",
+  datas_updated: "Maʼlumotlar muvaffaqiyatli yangilandi! ✅"
 }
 
 

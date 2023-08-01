@@ -144,6 +144,17 @@ const main_menu = async (user_data, chatId) => {
   })
 }
 
+const get_contact = async (msg, user_data, chatId) => {
+  let res = translation_assistant(user_data.language)
+  await User.findByIdAndUpdate(user_data._id, {phone: msg.contact || msg.text, action: ''})
+  bot.sendMessage(chatId, res.translate.datas_updated, {
+    reply_markup: {
+      keyboard: res.kb,
+      resize_keyboard: true
+    }
+  })
+}
+
 
 module.exports = {
   start,
@@ -153,5 +164,6 @@ module.exports = {
   review,
   settings,
   cart,
-  main_menu
+  main_menu,
+  get_contact
 }

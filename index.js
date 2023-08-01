@@ -4,11 +4,22 @@ const mongoose = require('mongoose')
 const upload = require('express-fileupload')
 const cors = require('cors')
 const routers = require('./router')
+const http = require('http')
+const server = http.createServer(app)
+const { Server } = require('socket.io')
 require('dotenv').config()
 
 app.use(cors())
 app.use(express.json());
 app.use(upload())
+
+const io = new Server(server, {
+  cors: {
+    origin: ''
+  }
+})
+
+module.exports = { io }
 
 require('./bot/bot')
 
@@ -18,12 +29,18 @@ app.use(routers)
 mongoose.set('strictQuery', false);
 const PORT = 3000
 
+// io.on('connection', (socket) => { // socket io 
+//   socket.on('new order', data => {
+//     io.emit('new order', data)
+//   })
+// });
+
 async function dev() {
   try {
     await mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log('MongoDB connected!'))
     .catch((error) => console.log(error))
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`Server is running on ${PORT} PORT`);
     })
   } catch (error) {
