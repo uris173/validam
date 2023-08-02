@@ -13,6 +13,7 @@ const order = new Schema({
     count: Number,
   }],
   order_num: Number,
+  comment: String,
   status: {
     type: Number,
     default: 0

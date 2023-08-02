@@ -15,6 +15,7 @@ const ru = {
   added_product: 'Еда добавлена в корзину. Кол-во:',
   choose_product: "Выберите еду...",
   clear: 'Очистить корзину 🗑',
+  clear_success: 'Корзина очиещан! ✅',
   order: 'Оформить заказ 🛍',
   change: 'Изменить ✍️',
   empty_cart: 'Корзина пуста 😶',
@@ -28,8 +29,9 @@ const ru = {
   deleted_message: "Товар успешно удален из корзины! ✅",
   request_contact: 'Отправьте номер телефона 📱',
   send_contact: 'Отправить номер телефона 📞',
-  order_accepted: 'Заказ успешно оформлен. Заказ будет готов в течении 15-20 минут. Или же ждите уведомление о том, что Ваш заказ готов. Номер заказа:',
-  datas_updated: 'Данные успешно обновлены! ✅'
+  order_accepted: 'Заказ будет готов в течении 15-20 минут. Или же ждите уведомление о том, что Ваш заказ готов. Номер заказа:',
+  datas_updated: 'Данные успешно обновлены! ✅',
+  order_success: 'Заказ оформлен! ✅'
 }
 
 const uz = {
@@ -49,6 +51,7 @@ const uz = {
   added_product: "Ovqat savatga qo'shildi. Miqdor:",
   choose_product: "Ovqatni tanlang...",
   clear: "Savatni bo'shatish 🗑",
+  clear_success: 'Savat bo‘sh! ✅',
   change: "O'zgartirish ✍️",
   order: 'Buyurtma berish 🛍',
   empty_cart: "Savatcha bo‘sh 😶",
@@ -62,8 +65,9 @@ const uz = {
   deleted_message: "Mahsulot savatdan muvaffaqiyatli olib ochirildi! ✅",
   request_contact: 'Telefon raqamingizni yuboring 📱',
   send_contact: 'Telefon raqamni yuborish 📞',
-  order_accepted: "Buyurtma muvaffaqiyatli joylashtirildi. Buyurtma 15-20 daqiqada tayyor bo'ladi. Yoki buyurtmangiz tayyorligi haqida bildirishnomani kuting. Buyurtma raqami:",
-  datas_updated: "Maʼlumotlar muvaffaqiyatli yangilandi! ✅"
+  order_accepted: "Buyurtma 15-20 daqiqada tayyor bo'ladi. Yoki buyurtmangiz tayyorligi haqida bildirishnomani kuting. Buyurtma raqami:",
+  datas_updated: "Maʼlumotlar muvaffaqiyatli yangilandi! ✅",
+  order_success: "Buyurtma ro'yxatdan o'tdi! ✅"
 }
 
 

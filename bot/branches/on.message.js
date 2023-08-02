@@ -40,7 +40,7 @@ bot.on('message',async msg => {
 
   if (find_user) {
     let res = translation_assistant(find_user.language)
-    const product_slice = msg.text.split('-')
+    const product_slice = msg.text?.split('-') || ''
 
     if (msg.text === 'Меню 📋' || msg.text === "Menyu 📋") {
       let type = await Bot_Type.findOne({status: true})
@@ -67,7 +67,9 @@ bot.on('message',async msg => {
     if (msg.text === 'Настройки ⚙️' || msg.text === "Sozlamalar ⚙️")
       settings(chatId)
 
-    if (find_user.action === 'request contact' && msg.contact || msg.text.slice(0, 3) === '998' || msg.text.slice(0, 4) === '+998') 
+    if (find_user.action === 'request contact' && msg.contact || 
+    find_user.action === 'request contact' && msg.text?.slice(0, 3) === '998' || 
+    find_user.action === 'request contact' && msg.text?.slice(0, 4) === '+998') 
       get_contact(msg, find_user, chatId)
 
     // card type

@@ -1,8 +1,10 @@
 const User = require('../../models/users')
 const Cart = require('../../models/cart')
 const { bot } = require("../bot")
-const { translation_assistant, cart_products } = require('../options/helpers')
+const { translation_assistant, cart_products, get_random_int } = require('../options/helpers')
 const Review = require('../../models/review')
+const Order = require('../../models/order')
+const { io } = require('../..')
 
 
 const start = async (msg, chatId) => {
@@ -146,8 +148,23 @@ const main_menu = async (user_data, chatId) => {
 
 const get_contact = async (msg, user_data, chatId) => {
   let res = translation_assistant(user_data.language)
-  await User.findByIdAndUpdate(user_data._id, {phone: msg.contact || msg.text, action: ''})
-  bot.sendMessage(chatId, res.translate.datas_updated, {
+  await User.findByIdAndUpdate(user_data._id, {phone: msg.contact.phone_number || msg.text, action: ''})
+
+  const cart = await Cart.findOne({user: user_data._id})
+  let order_num = get_random_int()
+  let find_order_num = await Cart.findOne({order_num})
+  while (find_order_num) {
+    order = get_random_int()
+    find_order_num = await Cart.findOne({order_num})
+  }
+  const order = new Order({user: user_data._id, products: cart.products, order_num, status: 0})
+  await order.save()
+  await Cart.findByIdAndUpdate(cart._id, {products: []})
+  // await User.findByIdAndUpdate(user_data._id, {action: `comment-${order._id}`})
+  io.emit('new order', order)
+  
+  bot.sendMessage(chatId, `${res.translate.order_success}\n${res.translate.order_accepted} <b>${order_num}</b>`, {
+    parse_mode: 'HTML',
     reply_markup: {
       keyboard: res.kb,
       resize_keyboard: true

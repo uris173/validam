@@ -29,11 +29,11 @@ app.use(routers)
 mongoose.set('strictQuery', false);
 const PORT = 3000
 
-// io.on('connection', (socket) => { // socket io 
-//   socket.on('new order', data => {
-//     io.emit('new order', data)
-//   })
-// });
+io.on('connection', (socket) => { // socket io 
+  socket.on('new order', data => {
+    io.emit('new order', data)
+  })
+});
 
 async function dev() {
   try {

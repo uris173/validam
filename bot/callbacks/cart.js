@@ -41,7 +41,11 @@ const cart_items = async (query, user_data, chatId) => {
 }
 
 const clear_cart = async (query, user_data, chatId) => {
-  bot.sendMessage(chatId, 'Корзина очищена!')
+  const find_cart = await Cart.findOne({user: user_data._id})
+  await Cart.findByIdAndUpdate(find_cart._id, {products: []})
+  const res = translation_assistant(user_data.language)
+  bot.deleteMessage(chatId, query.id)
+  bot.sendMessage(chatId, res.translate.clear_success)
 }
 
 const change_cart_item = async (query, user_data, chatId) => {
@@ -224,8 +228,16 @@ const order = async (query, user_data, chatId) => {
 
     const order = new Order({user: user_data._id, products: cart.products, order_num, status: 0})
     await order.save()
+    await Cart.findByIdAndUpdate(cart._id, {products: []})
+    // await User.findByIdAndUpdate(user_data._id, {action: `comment-${order._id}`})
     io.emit('new order', order)
-    bot.sendMessage(chatId, `${res.translate.order_accepted} <b>${order_num}</b>`)
+    bot.sendMessage(chatId, `${res.translate.order_success}\n${res.translate.order_accepted} <b>${order_num}</b>`, {
+      parse_mode: 'HTML',
+      reply_markup: {
+        keyboard: res.kb,
+        resize_keyboard: true
+      }
+    })
   })
 }
 
