@@ -44,8 +44,13 @@ const clear_cart = async (query, user_data, chatId) => {
   const find_cart = await Cart.findOne({user: user_data._id})
   await Cart.findByIdAndUpdate(find_cart._id, {products: []})
   const res = translation_assistant(user_data.language)
-  bot.deleteMessage(chatId, query.id)
-  bot.sendMessage(chatId, res.translate.clear_success)
+  bot.deleteMessage(chatId, query.message.message_id)
+  bot.sendMessage(chatId, res.translate.clear_success, {
+    reply_markup: {
+      keyboard: res.kb,
+      resize_keyboard: true
+    }
+  })
 }
 
 const change_cart_item = async (query, user_data, chatId) => {
