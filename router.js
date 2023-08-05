@@ -7,6 +7,7 @@ router.use('/admin', require('./routers/admin'))
 router.use('/category', require('./routers/category'))
 router.use('/food', require('./routers/food'))
 router.use('/user', require('./routers/users'))
+router.use('/order', require('./routers/order'))
 
 // settings
 router.use('/bottype', require('./routers/settings/bot.type'))

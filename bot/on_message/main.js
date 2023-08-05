@@ -157,9 +157,9 @@ const get_contact = async (msg, user_data, chatId) => {
     order = get_random_int()
     find_order_num = await Cart.findOne({order_num})
   }
-  const order = new Order({user: user_data._id, products: cart.products, order_num, status: 0})
+  const order = new Order({user: user_data._id, products: cart.products, date: Date.now(), order_num, status: 0})
   await order.save()
-  await Cart.findByIdAndUpdate(cart._id, {products: []})
+  // await Cart.findByIdAndUpdate(cart._id, {products: []})
   // await User.findByIdAndUpdate(user_data._id, {action: `comment-${order._id}`})
   io.emit('new order', order)
   

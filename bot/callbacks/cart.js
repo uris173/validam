@@ -7,7 +7,8 @@ const {
 } = require('../options/helpers')
 const {
   bot,
-  sliceIntoChunks
+  sliceIntoChunks,
+  groupId
 } = require('../bot')
 
 const cart_items = async (query, user_data, chatId) => {
@@ -231,17 +232,25 @@ const order = async (query, user_data, chatId) => {
       find_order_num = await Cart.findOne({order_num})
     }
 
-    const order = new Order({user: user_data._id, products: cart.products, order_num, status: 0})
-    await order.save()
-    await Cart.findByIdAndUpdate(cart._id, {products: []})
+    const new_order = new Order({user: user_data._id, products: cart.products, date: Date.now(), order_num, status: 0})
+    await new_order.save()
+    // await Cart.findByIdAndUpdate(cart._id, {products: []})
     // await User.findByIdAndUpdate(user_data._id, {action: `comment-${order._id}`})
-    io.emit('new order', order)
+    io.emit('new order', new_order)
     bot.sendMessage(chatId, `${res.translate.order_success}\n${res.translate.order_accepted} <b>${order_num}</b>`, {
       parse_mode: 'HTML',
       reply_markup: {
         keyboard: res.kb,
         resize_keyboard: true
       }
+    })
+    
+    let order = await Order.findById(new_order._id)
+    .populate({path: 'products.product', select: 'title title_uz price'}).lean()
+
+    let products = cart_products(order.products, 'ru')
+    bot.sendMessage(groupId, products, {
+      parse_mode: 'HTML'
     })
   })
 }

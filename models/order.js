@@ -8,10 +8,11 @@ const order = new Schema({
   products: [{
     product: {
       type: Schema.Types.ObjectId,
-      ref: 'Product'
+      ref: 'Food'
     },
     count: Number,
   }],
+  date: Date,
   order_num: Number,
   comment: String,
   status: {

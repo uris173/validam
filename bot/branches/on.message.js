@@ -1,5 +1,5 @@
 const User = require('../../models/users')
-const { bot, commands } = require('../bot')
+const { bot, commands, groupId } = require('../bot')
 const Bot_Type = require('../../models/bot.type')
 const {
   start,
@@ -35,10 +35,10 @@ bot.on('message',async msg => {
   const chatId = msg.chat.id
   const find_user = await User.findOne({userId: chatId})
 
-  if (msg.text === '/start')
+  if (msg.text === '/start' && chatId !== -1001921927445)
     start(msg, chatId)
 
-  if (find_user) {
+  if (find_user && chatId !== -1001921927445) {
     let res = translation_assistant(find_user.language)
     const product_slice = msg.text?.split('-') || ''
 
