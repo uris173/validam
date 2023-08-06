@@ -30,14 +30,14 @@ const all_orders = async (req, res) => {
 
 const get_order = async (req, res) => {
   const order = await Order.findById(req.params.id)
-  .populate({path: 'products.product'})
+  .populate([{path: 'products.product'}, {path: 'user'}])
   res.status(200).json(order)
 }
 
 const edit_order = async (req, res) => {
   await Order.findByIdAndUpdate(req.body._id, {...req.body})
   const order = await Order.findById(req.body._id)
-  .populate({path: 'products.product'})
+  .populate([{path: 'products.product'}, {path: 'user'}])
   res.status(201).json(order)
 }
 

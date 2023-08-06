@@ -30,9 +30,7 @@ mongoose.set('strictQuery', false);
 const PORT = 3000
 
 io.on('connection', (socket) => { // socket io 
-  socket.on('new order', data => {
-    io.emit('new order', data)
-  })
+  console.log('Socket.io client connected!');
 });
 
 async function dev() {
