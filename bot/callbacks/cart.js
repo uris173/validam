@@ -236,7 +236,7 @@ const order = async (query, user_data, chatId) => {
     await new_order.save()
     // await Cart.findByIdAndUpdate(cart._id, {products: []})
     // await User.findByIdAndUpdate(user_data._id, {action: `comment-${order._id}`})
-    io.emit('new order', new_order)
+    
     bot.sendMessage(chatId, `${res.translate.order_success}\n${res.translate.order_accepted} <b>${order_num}</b>`, {
       parse_mode: 'HTML',
       reply_markup: {
@@ -246,8 +246,18 @@ const order = async (query, user_data, chatId) => {
     })
     
     let order = await Order.findById(new_order._id)
-    .populate({path: 'products.product', select: 'title title_uz price'}).lean()
-
+    .populate([{path: 'products.product'}, {path: 'user'}])
+    .lean()
+    order.total_price = 0
+    order.total_count = 0
+    order.products = order.products.map(val => {
+      val.total = val.count * val.product.price
+      order.total_count += val.count
+      order.total_price += val.total
+      return val
+    })
+    io.emit('new order', order)
+    
     let products = cart_products(order.products, 'ru')
     bot.sendMessage(groupId, products, {
       parse_mode: 'HTML'

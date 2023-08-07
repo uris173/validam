@@ -11,6 +11,7 @@ const all_orders = async (req, res) => {
   .populate([{path: 'products.product'}, {path: 'user'}])
   .limit(per_page)
   .skip(next)
+  .sort({_id: -1})
   .lean()
   
   orders = orders.map(val => {
@@ -24,7 +25,7 @@ const all_orders = async (req, res) => {
     })
     return val
   })
-  
+
   res.status(200).json({count, orders})
 }
 
