@@ -225,19 +225,17 @@ const order = async (query, user_data, chatId) => {
     }
 
     const cart = await Cart.findOne({user: user_data._id})
-    let order_num = get_random_int()
-    let find_order_num = await Cart.findOne({order_num})
-    while (find_order_num) {
-      order = get_random_int()
-      find_order_num = await Cart.findOne({order_num})
-    }
+    const cart_count = await Order.find().count()
+    const date = new Date()
+    let year = date.getFullYear()
+    // let dateee = '2023-08-06T17:05:44.514Z'
 
-    const new_order = new Order({user: user_data._id, products: cart.products, date: Date.now(), order_num, status: 0})
+    const new_order = new Order({user: user_data._id, products: cart.products, date, order_num: `${year}${cart_count + 1}`, status: 0})
     await new_order.save()
     // await Cart.findByIdAndUpdate(cart._id, {products: []})
     // await User.findByIdAndUpdate(user_data._id, {action: `comment-${order._id}`})
     
-    bot.sendMessage(chatId, `${res.translate.order_success}\n${res.translate.order_accepted} <b>${order_num}</b>`, {
+    bot.sendMessage(chatId, `${res.translate.order_success}\n${res.translate.order_accepted} <b>${new_order.order_num}</b>`, {
       parse_mode: 'HTML',
       reply_markup: {
         keyboard: res.kb,
@@ -259,7 +257,8 @@ const order = async (query, user_data, chatId) => {
     io.emit('new order', order)
     
     let products = cart_products(order.products, 'ru')
-    bot.sendMessage(groupId, products, {
+    let text = `<i>Заказ!</i> 🛍\n\nИмя пользователя: <b>${order.user.name}</b>\nНомер телефона: <b><u>+${order.user.phone}</u></b>\nНомер заказа: <b>${new_order.order_num}</b>\n\n${products}`
+    bot.sendMessage(groupId, text, {
       parse_mode: 'HTML'
     })
   })
