@@ -12,7 +12,10 @@ const order = new Schema({
     },
     count: Number,
   }],
-  date: Date,
+  date: {
+    type: Date,
+    default: new Date("2022-01-15T17:05:44.514Z")
+  },
   order_num: Number,
   comment: String,
   status: {

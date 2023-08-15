@@ -228,9 +228,8 @@ const order = async (query, user_data, chatId) => {
     const cart_count = await Order.find().count()
     const date = new Date()
     let year = date.getFullYear()
-    // let dateee = '2023-08-06T17:05:44.514Z'
 
-    const new_order = new Order({user: user_data._id, products: cart.products, date, order_num: `${year}${cart_count + 1}`, status: 0})
+    const new_order = new Order({user: user_data._id, products: cart.products, order_num: `${year}${cart_count + 1}`, status: 0}) // date, 
     await new_order.save()
     // await Cart.findByIdAndUpdate(cart._id, {products: []})
     // await User.findByIdAndUpdate(user_data._id, {action: `comment-${order._id}`})
@@ -257,7 +256,7 @@ const order = async (query, user_data, chatId) => {
     io.emit('new order', order)
     
     let products = cart_products(order.products, 'ru')
-    let text = `<i>Заказ!</i> 🛍\n\nИмя пользователя: <b>${order.user.name}</b>\nНомер телефона: <b><u>+${order.user.phone}</u></b>\nНомер заказа: <b>${new_order.order_num}</b>\n\n${products}`
+    let text = `<i>Заказ!</i> 🛍\n\nИмя пользователя: <b>${order.user.name}</b>\nНомер телефона: <b><u>${order.user.phone}</u></b>\nНомер заказа: <b>${new_order.order_num}</b>\n\n${products}`
     bot.sendMessage(groupId, text, {
       parse_mode: 'HTML'
     })
