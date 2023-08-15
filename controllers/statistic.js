@@ -1,8 +1,17 @@
 const Order = require('../models/order')
 const Products = require('../models/food')
+const Categoty = require('../models/category')
 const User = require('../models/users')
 
-const top_statistic = async (req, res) => {
+const datas_count = async (req, res) => {
+  const order = await Order.find().count()
+  const product = await Products.find().count()
+  const category = await Categoty.find().count()
+  const user = await User.find().count()
+  res.status(200).json({order, product, category, user})
+}
+
+const doughnut_statistic = async (req, res) => {
   let not_viewed = await Order.find({status: 0}).populate({
     path: 'products.product',
     select: 'price'
@@ -140,7 +149,8 @@ const year_statistic = async (req, res) => {
 
 
 module.exports = {
-  top_statistic,
+  datas_count,
+  doughnut_statistic,
   month_statistic,
   year_statistic
 }
