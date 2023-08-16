@@ -4,7 +4,7 @@ const Cart = require('../models/cart')
 const category_food = async (req, res) => {
   const category_id = req.params.id
   let page = req.query.page || 0
-  const per_page = 2
+  const per_page = 5
   page = page * per_page
 
   let product = await Food.find({category: category_id, status: true})

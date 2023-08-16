@@ -1,6 +1,6 @@
 const Food = require('../../models/food')
 const axios = require('axios')
-const { translation_assistant, card } = require('../options/helpers')
+const { translation_assistant, pagination_menu, card } = require('../options/helpers')
 const {
   bot,
   sliceIntoChunks,
@@ -20,14 +20,7 @@ const pagintation_callback_category = async (query, user_data, chatId) => {
       bot.answerCallbackQuery(query.id, {text: res.translate.empty_product, show_alert: true})
     } else {
       bot.answerCallbackQuery((query.id)).then(async () => {
-        let list = ''
-        product.forEach((val, index) => {
-          let title = user_data.language === 'ru' ? val.title : val.title_uz
-          let weight_type = user_data.language === 'ru' ? val.weight_type : val.weight_type === 'гр.' ? 'gr.' : 'kg.'
-          let weight = `${val.weight} ${weight_type}`
-          let price_str = user_data.language === 'ru' ? 'сум' : 'sum'
-          list += `<i>${index + 1}</i>) <b>${title}</b>. ${weight} - ${val.price.toLocaleString('fr')} ${price_str}\n`
-        })
+        let list = pagination_menu(product, user_data.language)
         
         let array = []
         product.forEach((val, index) => {
@@ -79,14 +72,7 @@ const callback_next = async (query, user_data, chatId) => {
       bot.answerCallbackQuery(query.id, {text: res.translate.back_answer, show_alert: true})
     } else {
       bot.answerCallbackQuery((query.id)).then(() => {
-        let list = ''
-        product.forEach((val, index) => {
-          let title = user_data.language === 'ru' ? val.title : val.title_uz
-          let weight_type = user_data.language === 'ru' ? val.weight_type : val.weight_type === 'гр.' ? 'gr.' : 'kg.'
-          let weight = `${val.weight} ${weight_type}`
-          let price_str = user_data.language === 'ru' ? 'сум' : 'sum'
-          list += `<i>${index + 1}</i>) <b>${title}</b>. ${weight} - ${val.price.toLocaleString('fr')} ${price_str}\n`
-        })
+        let list = pagination_menu(product, user_data.language)
 
         let array = []
         product.forEach((val, index) => {
@@ -166,14 +152,7 @@ const back_to_pagination = async (query, user_data, chatId) => {
     } else {
       bot.deleteMessage(chatId, query.message.message_id)
       bot.answerCallbackQuery((query.id)).then(() => {
-        let list = ''
-        product.forEach((val, index) => {
-          let title = user_data.language === 'ru' ? val.title : val.title_uz
-          let weight_type = user_data.language === 'ru' ? val.weight_type : val.weight_type === 'гр.' ? 'gr.' : 'kg.'
-          let weight = `${val.weight} ${weight_type}`
-          let price_str = user_data.language === 'ru' ? 'сум' : 'sum'
-          list += `<i>${index + 1}</i>) <b>${title}</b>. ${weight} - ${val.price.toLocaleString('fr')} ${price_str}\n`
-        })
+        let list = pagination_menu(product, user_data.language)
 
         let array = []
         product.forEach((val, index) => {

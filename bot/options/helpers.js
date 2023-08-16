@@ -7,6 +7,18 @@ const translation_assistant = (lang) => {
   return { kb, translate }
 }
 
+const pagination_menu = (product, language) => {
+  let list = ''
+  product.forEach((val, index) => {
+    let title = language === 'ru' ? val.title : val.title_uz
+    let weight_type = language === 'ru' ? val.weight_type : val.weight_type === 'гр.' ? 'gr.' : 'kg.'
+    let weight = `${val.weight} ${weight_type}`
+    let price_str = language === 'ru' ? 'сум' : 'sum'
+    list += `<i>${index + 1}</i>) <b>${title}</b>. ${weight} - ${val.price.toLocaleString('fr')} ${price_str}\n`
+  })
+  return list
+}
+
 const card = (product, language) => {
   let img = 'https://images4.alphacoders.com/655/655929.png' // product.image[0].url
 
@@ -76,6 +88,7 @@ function get_random_int() {
 
 
 module.exports = {
+  pagination_menu,
   translation_assistant,
   card,
   cart_products,
