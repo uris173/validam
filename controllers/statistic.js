@@ -67,12 +67,23 @@ const doughnut_statistic = async (req, res) => {
     })
   })
 
+  let titles = ['Не просмотренные', 'В обработке', 'Готовые', 'Забрали', 'Отказанные']
+  let price = {
+    titles,
+    prices: [not_viewed_price, pending_price, ready_price, taken_price, denied_price]
+  }
+  let count = {
+    titles,
+    counts: [not_viewed.length,  pending.length, ready.length, taken_away.length, denied.length]
+  }
+
   res.status(200).json({
-    not_viewed: {price: not_viewed_price, count: not_viewed.length},
-    pending: {price: pending_price, count: pending.length},
-    ready: {price: ready_price, count: ready.length},
-    taken_away: {price: taken_price, count: taken_away.length},
-    denied: {price: denied_price, count: denied.length}
+    price, count
+    // not_viewed: {price: not_viewed_price, count: not_viewed.length},
+    // pending: {price: pending_price, count: pending.length},
+    // ready: {price: ready_price, count: ready.length},
+    // taken_away: {price: taken_price, count: taken_away.length},
+    // denied: {price: denied_price, count: denied.length}
   })
 }
 
