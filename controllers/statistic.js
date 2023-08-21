@@ -87,36 +87,65 @@ const doughnut_statistic = async (req, res) => {
   })
 }
 
+const popular_products = async (req, res) => {
+  // let data = []
+  let datas = await Order.aggregate([
+    {
+      $unwind: "$products"
+    },
+    {
+      $group: {
+        _id: "$products.product",
+        total_orders: { $sum: "$products.count" }
+      }
+    },
+    {
+      $sort: { total_orders: -1 }
+    }
+  ])
+  .limit(5)
+
+  let titles = []
+  let counts = []
+  datas = await Promise.all(datas.map(async data => {
+    data.product = await Products.findById(data._id, 'title')
+    titles.push(data.product.title)
+    counts.push(data.total_orders)
+    return data
+  }))
+  res.status(200).json({titles, counts})
+}
+
 const month_statistic = async (req, res) => {
   const date = new Date();
   const currentYear = parseInt(req.query.year) || date.getFullYear()
   const currentMonth = parseInt(req.query.month) || date.getMonth()
+  // console.log(currentYear, currentMonth);
   const daysInCurrentMonth = getDaysInMonth(currentYear, currentMonth);
 
   let orders = await Order.find()
   .populate({path: 'products.product', select: 'price'})
   .lean()
-  let ordersByDay = {};
+  let order_by_day = {};
 
   orders.forEach(order => {
     let orderDate = new Date(order.date)
     if (order.date.getFullYear() === currentYear && order.date.getMonth() === currentMonth) {
       let day = orderDate.getDate()
-      if (!ordersByDay[day]) {
-        ordersByDay[day] = 0
+      if (!order_by_day[day]) {
+        order_by_day[day] = 0
       }
-      ordersByDay[day] ++
+      order_by_day[day] ++
     }
   })
 
   function getDaysInMonth(year, month) {
     return new Date(year, month, 0).getDate();
   }
-  let ordersByDayArray = [];
+  let order_by_day_arr = [];
   for (let i = 1; i<= daysInCurrentMonth; i ++) {
-    ordersByDayArray.push(ordersByDay[i] || 0)
+    order_by_day_arr.push(order_by_day[i] || 0)
   }
-
 
   let total_month_price = 0
   orders.forEach(order => {
@@ -125,7 +154,7 @@ const month_statistic = async (req, res) => {
     }
   })
 
-  res.status(200).json({ordersByDayArray, total_month_price})
+  res.status(200).json({order_by_day_arr, total_month_price, currentMonth})
 }
 
 const year_statistic = async (req, res) => {
@@ -162,6 +191,7 @@ const year_statistic = async (req, res) => {
 module.exports = {
   datas_count,
   doughnut_statistic,
+  popular_products,
   month_statistic,
   year_statistic
 }

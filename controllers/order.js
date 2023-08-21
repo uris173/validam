@@ -37,8 +37,18 @@ const get_order = async (req, res) => {
 
 const edit_order = async (req, res) => {
   await Order.findByIdAndUpdate(req.body._id, {...req.body})
-  const order = await Order.findById(req.body._id)
+  let order = await Order.findById(req.body._id)
   .populate([{path: 'products.product'}, {path: 'user'}])
+  .lean()
+
+  order.total_count = 0
+  order.total_price = 0
+  order.products = order.products.map(val => {
+    val.total = val.count * val.product.price
+    order.total_count += val.count
+    order.total_price += val.total
+    return val
+  })
   res.status(201).json(order)
 }
 

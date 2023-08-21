@@ -8,7 +8,7 @@ const {
 
 const simple_category_products = async (query, user_data, chatId) => {
   const callback = JSON.parse(query.data)
-  const product = await Food.find({category: callback.simple})
+  const product = await Food.find({category: callback.simple, status: true})
   .sort({_id: -1})
   let res = translation_assistant(user_data.language)
   let array = []

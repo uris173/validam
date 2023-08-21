@@ -9,7 +9,7 @@ const category_card_products = async (query, user_data, category) => {
   const page = parseInt(query.offset) || 0
   const limit = 15
   const offset = page * limit
-  let product = await Food.find({category: category._id})
+  let product = await Food.find({category: category._id, status: true})
   .sort({_id: -1})
   // .skip(offset)
   // .limit(limit)
