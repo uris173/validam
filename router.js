@@ -7,6 +7,7 @@ router.use('/admin', require('./routers/admin'))
 router.use('/category', require('./routers/category'))
 router.use('/food', require('./routers/food'))
 router.use('/user', require('./routers/users'))
+router.use('/reviews', require('./routers/reviews'))
 router.use('/order', require('./routers/order'))
 router.use('/statistic', require('./routers/statistic'))
 

@@ -14,7 +14,7 @@ const order = new Schema({
   }],
   date: {
     type: Date,
-    default: new Date("2023-08-01T17:05:44.514Z")
+    default: new Date("2023-08-22T17:05:44.514Z")
   },
   order_num: Number,
   comment: String,

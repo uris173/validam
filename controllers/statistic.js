@@ -159,7 +159,7 @@ const month_statistic = async (req, res) => {
 
 const year_statistic = async (req, res) => {
   const date = new Date()
-  const currentYear = parseInt(req.query.year) || date.getFullYear()
+  const current_year = parseInt(req.query.year) || date.getFullYear()
 
   let orders = await Order.find()
   .populate({path: 'products.product', select: 'price'})
@@ -167,10 +167,10 @@ const year_statistic = async (req, res) => {
 
   let total_year_price = 0
   let orderByMonth = {}
-  let orderByMonthArray = []
+  let order_by_month_arr = []
 
   orders.forEach(order => {
-    if (order.date.getFullYear() === currentYear) {
+    if (order.date.getFullYear() === current_year) {
       let orderDate = new Date(order.date)
       let month = orderDate.getMonth() + 1
       if (!orderByMonth[month]) {
@@ -181,10 +181,10 @@ const year_statistic = async (req, res) => {
     }
   })
   for (let i = 1; i<= 12; i ++) {
-    orderByMonthArray.push(orderByMonth[i] || 0)
+    order_by_month_arr.push(orderByMonth[i] || 0)
   }
 
-  res.status(200).json({total_year_price, orderByMonthArray})
+  res.status(200).json({total_year_price, order_by_month_arr, current_year})
 }
 
 
