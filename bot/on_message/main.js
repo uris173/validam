@@ -1,6 +1,6 @@
 const User = require('../../models/users')
 const Cart = require('../../models/cart')
-const { bot } = require("../bot")
+const { bot, groupId } = require("../bot")
 const { translation_assistant, cart_products, get_random_int } = require('../options/helpers')
 const Review = require('../../models/review')
 const Order = require('../../models/order')
@@ -100,7 +100,7 @@ const cart = async (user_data, chatId) => {
   let cart = await Cart.findOne({user: user_data._id})
     .populate({path: 'products.product', select: 'title title_uz price'}).lean()
     let res = translation_assistant(user_data.language)
-    
+
     if (cart?.products.length > 0) {
       let products = cart_products(cart.products, user_data.language)
       bot.sendMessage(chatId, products, {
