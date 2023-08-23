@@ -15,7 +15,10 @@ app.use(upload())
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:8080'
+    // origin: ['http://localhost:8080', 'http://192.168.24.44:8080'],
+    origin: ['https://foodadmin.of-astora.uz', 'http://localhost:8080'],
+    methods: ['GET', 'POST'],
+    credentials: true
   }
 })
 
@@ -27,7 +30,7 @@ app.use('/files',express.static('files'))
 app.use(routers)
 
 mongoose.set('strictQuery', false);
-const PORT = 3002
+const PORT = 3004
 
 io.on('connection', (socket) => { // socket io 
   console.log('Socket.io client connected!');

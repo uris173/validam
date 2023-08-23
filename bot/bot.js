@@ -14,7 +14,7 @@ function sliceIntoChunks(arr, chunkSize) {
   return res;
 }
 const commands = ['/start', 'Меню 📋', 'Контакты 📞', 'Оставить отзыв ✍️', 'Корзина 🧺', 'Настройки ⚙️', "Menyu 📋", "Kontaktlar 📞", "Fikr qoldiring ✍️", "Savat 🧺", "Sozlamalar ⚙️"]
-const url = 'http://localhost:3002'
+const url = 'https://foodapi.of-astora.uz'
 const groupId = -1001921927445
 
 module.exports = {
