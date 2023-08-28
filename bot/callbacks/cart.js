@@ -229,7 +229,7 @@ const order = async (query, user_data, chatId) => {
     const date = new Date()
     let year = date.getFullYear()
 
-    const new_order = new Order({user: user_data._id, products: cart.products, order_num: `${year}${cart_count + 1}`, status: 0}) // date, 
+    const new_order = new Order({user: user_data._id, products: cart.products, date, order_num: `${year}${cart_count + 1}`, status: 0}) // date,
     await new_order.save()
     // await Cart.findByIdAndUpdate(cart._id, {products: []})
     // await User.findByIdAndUpdate(user_data._id, {action: `comment-${order._id}`})
@@ -253,13 +253,14 @@ const order = async (query, user_data, chatId) => {
       order.total_price += val.total
       return val
     })
+    console.log(io)
     io.emit('new order', order)
     
     let products = cart_products(order.products, 'ru')
     let text = `<i>Заказ!</i> 🛍\n\nИмя пользователя: <b>${order.user.name}</b>\nНомер телефона: <b><u>${order.user.phone}</u></b>\nНомер заказа: <b>${new_order.order_num}</b>\n\n${products}`
     bot.sendMessage(groupId, text, {
       parse_mode: 'HTML'
-    })
+    }).then(res => console.log(res))
   })
 }
 

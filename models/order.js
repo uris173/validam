@@ -12,10 +12,11 @@ const order = new Schema({
     },
     count: Number,
   }],
-  date: {
-    type: Date,
-    default: new Date("2023-08-22T17:05:44.514Z")
-  },
+  // date: {
+  //   type: Date,
+  //   default: new Date("2023-08-22T17:05:44.514Z")
+  // },
+  date: Date,
   order_num: Number,
   comment: String,
   status: {

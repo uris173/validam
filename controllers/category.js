@@ -8,7 +8,9 @@ const all_category = async (req, res) => {
 
   let fill = {}
   const title = req.query.title || null
+  const slug = req.query.slug || null
   fill = title ? {...fill, title: {$regex: new RegExp(title), $options: 'i'}} : fill
+  fill = slug ? {...fill, slug: {$regex: new RegExp(slug), options: 'i'}} : fill
 
   let category = await Category.find(fill)
   .sort({_id: -1})

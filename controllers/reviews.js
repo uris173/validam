@@ -19,6 +19,7 @@ const all_reviews = async (req, res) => {
 
 const get_review = async (req, res) => {
   let review = await Review.findById(req.params.id)
+  .populate({path: 'user'})
   res.status(200).json(review)
 }
 
