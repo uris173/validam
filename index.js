@@ -21,7 +21,7 @@ const io = new Server(server, {
   }
 })
 
-module.exports = { io }
+module.exports = io
 
 require('./bot/bot')
 
@@ -47,4 +47,5 @@ async function dev() {
     console.log(error);
   }
 }
+
 dev()

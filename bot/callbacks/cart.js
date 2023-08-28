@@ -1,7 +1,7 @@
 const Cart = require('../../models/cart')
 const Order = require('../../models/order')
 const User = require('../../models/users')
-const { io } = require('../../index')
+const io = require('../../index')
 const {
   cart_products, translation_assistant, actions_products, product_count_info, get_random_int
 } = require('../options/helpers')
