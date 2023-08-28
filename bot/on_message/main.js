@@ -1,10 +1,10 @@
+const { bot, groupId } = require("../bot")
+// const { io } = require('../../index')
+const { translation_assistant, cart_products, get_random_int } = require('../options/helpers')
 const User = require('../../models/users')
 const Cart = require('../../models/cart')
-const { bot, groupId } = require("../bot")
-const { translation_assistant, cart_products, get_random_int } = require('../options/helpers')
 const Review = require('../../models/review')
 const Order = require('../../models/order')
-const { io } = require('../..')
 
 
 const start = async (msg, chatId) => {

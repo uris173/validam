@@ -1,4 +1,5 @@
 const Order = require('../models/order')
+const {bot} = require('../bot/bot')
 
 
 const all_orders = async (req, res) => {
@@ -49,6 +50,15 @@ const edit_order = async (req, res) => {
     order.total_price += val.total
     return val
   })
+
+  if (order.status !== 0) {
+    let status = order.status
+    let text_ru = status === 1 ? 'Ваш заказ принят и в обработке!' : status === 2 ? 'Ваш заказ готов! Вы можете забрать свой заказ!' : status === 3 ? 'Заказ успешно передан вам!' : 'Заказ отказан!'
+    let text_uz = status === 1 ? 'Sizning buyurtmangiz qabul qilindi va tayorlash jarayonida!' : status === 2 ? 'Sizning buyurtmangiz tayyor! Buyurtmangizni olib kitishingiz mumkin!' : status === 3 ? 'Buyurtma muvoffaqiyatli topshirildi!' : 'Buyurtma rad etildi!'
+    console.log(order.user)
+    let text = order.user.language === 'ru' ? text_ru : text_uz
+    bot.sendMessage(order.user.userId, text)
+  }
   res.status(201).json(order)
 }
 
