@@ -4,7 +4,7 @@ const { bot, groupId } = require("../bot")
 const { translation_assistant, cart_products, get_random_int } = require('../options/helpers')
 const Review = require('../../models/review')
 const Order = require('../../models/order')
-const { io } = require('../..')
+const { io } = require('../../index')
 
 
 const start = async (msg, chatId) => {
