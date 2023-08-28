@@ -1,7 +1,8 @@
 const Cart = require('../../models/cart')
 const Order = require('../../models/order')
 const User = require('../../models/users')
-const io = require('../../index')
+const { get_socket } = require('../../socket')
+// const io = get_socket()
 const {
   cart_products, translation_assistant, actions_products, product_count_info, get_random_int
 } = require('../options/helpers')
@@ -10,6 +11,7 @@ const {
   sliceIntoChunks,
   groupId
 } = require('../bot')
+
 
 const cart_items = async (query, user_data, chatId) => {
   bot.answerCallbackQuery(query.id).then(async () => {
@@ -210,6 +212,7 @@ const delete_item = async (query, user_data, chatId) => {
 
 const order = async (query, user_data, chatId) => {
   bot.answerCallbackQuery(query.id).then(async () => {
+    const io = await get_socket()
     let res = translation_assistant(user_data.language)
 
     if (!user_data.phone) {
@@ -253,16 +256,17 @@ const order = async (query, user_data, chatId) => {
       order.total_price += val.total
       return val
     })
-    console.log(io)
     io.emit('new order', order)
     
     let products = cart_products(order.products, 'ru')
     let text = `<i>Заказ!</i> 🛍\n\nИмя пользователя: <b>${order.user.name}</b>\nНомер телефона: <b><u>${order.user.phone}</u></b>\nНомер заказа: <b>${new_order.order_num}</b>\n\n${products}`
     bot.sendMessage(groupId, text, {
       parse_mode: 'HTML'
-    }).then(res => console.log(res))
+    })
+    // .then(res => console.log(res))
   })
 }
+
 
 
 

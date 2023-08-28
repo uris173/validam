@@ -4,7 +4,7 @@ const { bot, groupId } = require("../bot")
 const { translation_assistant, cart_products, get_random_int } = require('../options/helpers')
 const Review = require('../../models/review')
 const Order = require('../../models/order')
-const io = require('../../index')
+const {get_socket} = require('../../socket')
 
 
 const start = async (msg, chatId) => {
@@ -147,6 +147,7 @@ const main_menu = async (user_data, chatId) => {
 }
 
 const get_contact = async (msg, user_data, chatId) => {
+  const io = await get_socket()
   let res = translation_assistant(user_data.language)
   await User.findByIdAndUpdate(user_data._id, {phone: msg.contact.phone_number || msg.text, action: ''})
 
