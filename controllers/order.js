@@ -1,4 +1,5 @@
 const Order = require('../models/order')
+const User = require('../models/users')
 const {bot} = require('../bot/bot')
 
 
@@ -36,6 +37,20 @@ const get_order = async (req, res) => {
   res.status(200).json(order)
 }
 
+const send_message = async (req, res) => {
+  const {_id, text} = req.body
+  const user = await User.findById(_id)
+  bot.sendMessage(user.userId, text)
+  .then(() => res.status(200).json({message: 'Сообщение отправлено!'}))
+  .catch(error => {
+    if (error.response && error.response.statusCode === 403) {
+      res.status(200).json({message: 'Сообщение не отправлено. Пользователь заблокировал бота.'})
+    } else {
+      res.status(200).json({message: 'Ошибка при отправке сообщения.'})
+    }
+  })
+}
+
 const edit_order = async (req, res) => {
   await Order.findByIdAndUpdate(req.body._id, {...req.body})
   let order = await Order.findById(req.body._id)
@@ -55,11 +70,17 @@ const edit_order = async (req, res) => {
     let status = order.status
     let text_ru = status === 1 ? 'Ваш заказ принят и в обработке!' : status === 2 ? 'Ваш заказ готов! Вы можете забрать свой заказ!' : status === 3 ? 'Заказ успешно передан вам!' : 'Заказ отказан!'
     let text_uz = status === 1 ? 'Sizning buyurtmangiz qabul qilindi va tayorlash jarayonida!' : status === 2 ? 'Sizning buyurtmangiz tayyor! Buyurtmangizni olib kitishingiz mumkin!' : status === 3 ? 'Buyurtma muvoffaqiyatli topshirildi!' : 'Buyurtma rad etildi!'
-    console.log(order.user)
     let text = order.user.language === 'ru' ? text_ru : text_uz
     bot.sendMessage(order.user.userId, text)
+    .then(() => res.status(201).json(order))
+    .catch(error => {
+      if (error.response && error.response.statusCode === 403) {
+        res.status(200).json({message: 'Сообщение не отправлено. Пользователь заблокировал бота.'})
+      } else {
+        res.status(200).json({message: 'Ошибка при отправке сообщения.'})
+      }
+    })
   }
-  res.status(201).json(order)
 }
 
 const delete_order = async (req, res) => {
@@ -71,6 +92,7 @@ const delete_order = async (req, res) => {
 module.exports = {
   all_orders,
   get_order,
+  send_message,
   edit_order,
   delete_order
 }
