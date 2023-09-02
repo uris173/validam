@@ -8,8 +8,14 @@ const all_orders = async (req, res) => {
   let next = req.query.next || 1
   next = (next - 1) * per_page
 
-  const count = await Order.find().count()
-  let orders = await Order.find()
+  const status = req.query.status || null
+  const order_num = req.query.order_num || null
+  let fill = {}
+  fill = status ? {...fill, status} : fill
+  fill = order_num ? {...fill, order_num} : fill
+
+  const count = await Order.find({...fill}).count()
+  let orders = await Order.find({...fill})
   .populate([{path: 'products.product'}, {path: 'user'}])
   .limit(per_page)
   .skip(next)

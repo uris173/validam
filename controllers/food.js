@@ -9,16 +9,18 @@ const all_foods = async (req, res) => {
 
   let fill = {}
   const title = req.query.title || null
+  const title_uz = req.query.title_uz || null
   const category = req.query.category?.toString() || null
   fill = title ? {...fill, title: {$regex: new RegExp(title), $options: 'i'}} : fill
+  fill = title_uz ? {...fill, title: {$regex: new RegExp(title_uz), $options: 'i'}} : fill
   fill = category ? {...fill, category} : fill
 
-  let foods = await Food.find(fill)
+  let foods = await Food.find({...fill})
   .populate('category')
   .sort({_id: -1})
   .limit(per_page)
   .skip(next)
-  const count = await Food.find().count()
+  const count = await Food.find({...fill}).count()
 
   res.status(200).json({foods, count})
 }

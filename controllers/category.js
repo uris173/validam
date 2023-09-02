@@ -8,15 +8,15 @@ const all_category = async (req, res) => {
 
   let fill = {}
   const title = req.query.title || null
-  const slug = req.query.slug || null
+  const title_uz = req.query.title_uz || null
   fill = title ? {...fill, title: {$regex: new RegExp(title), $options: 'i'}} : fill
-  fill = slug ? {...fill, slug: {$regex: new RegExp(slug), options: 'i'}} : fill
+  fill = title_uz ? {...fill, title_uz: {$regex: new RegExp(title_uz), $options: 'i'}} : fill
 
-  let category = await Category.find(fill)
+  let category = await Category.find({...fill})
   .sort({_id: -1})
   .limit(per_page)
   .skip(next)
-  const count = await Category.find().count()
+  const count = await Category.find({...fill}).count()
 
   res.status(200).json({category, count})
 }
