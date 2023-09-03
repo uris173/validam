@@ -1,6 +1,9 @@
 const User = require('../../models/users')
-const { bot, commands, groupId } = require('../bot')
+const { bot, commands, groupId, advertisingGroupId } = require('../bot')
 const Bot_Type = require('../../models/bot.type')
+const {
+  get_advertising
+} = require('../on_message/advertising')
 const {
   start,
   user_language,
@@ -31,14 +34,19 @@ const {
 const { translation_assistant } = require('../options/helpers')
 
 
-bot.on('message',async msg => {
+bot.on('message', async msg => {
   const chatId = msg.chat.id
   const find_user = await User.findOne({userId: chatId})
 
-  if (msg.text === '/start' && chatId !== -1001921927445)
+  if (chatId === -1001980301491) {
+    get_advertising(msg);
+  }
+
+  if (msg.text === '/start' && chatId !== groupId && chatId !== advertisingGroupId)
     start(msg, chatId)
 
-  if (find_user && chatId !== -1001921927445) {
+
+  if (find_user && chatId !== groupId && chatId !== advertisingGroupId) {
     let res = translation_assistant(find_user.language)
     const product_slice = msg.text?.split('-') || ''
 

@@ -1,5 +1,7 @@
 const Telegram_Bot = require('node-telegram-bot-api')
 const TOKEN = '6326200881:AAHgE9F4BRy3O2lBPpgYEnmlRlPgQkBZCiY'
+// food-bot - 6326200881:AAHgE9F4BRy3O2lBPpgYEnmlRlPgQkBZCiY
+// test-nginx-bot - 6071187964:AAHAUYP1Han-lxt2MZ6Bav2y94Mp-WLMw9g
 
 const bot = new Telegram_Bot(TOKEN, {
   polling: true
@@ -17,13 +19,15 @@ const commands = ['/start', 'Меню 📋', 'Контакты 📞', 'Оста�
 // const url = 'http://localhost:3004'
 const url = 'https://foodapi.of-astora.uz'
 const groupId = -1001921927445
+const advertisingGroupId = -1001980301491
 
 module.exports = {
   bot,
   sliceIntoChunks,
   commands,
   url,
-  groupId
+  groupId,
+  advertisingGroupId,
 }
 
 

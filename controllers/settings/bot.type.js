@@ -1,9 +1,4 @@
 const Bot_Type = require('../../models/bot.type')
-const Users = require('../../models/users')
-const url = 'https://foodapi.of-astora.uz'
-const batch_size = 10
-let offset = 0
-let is_sending = false
 
 const all_types = async (req, res) => {
   const bot_type = await Bot_Type.find()
