@@ -38,7 +38,7 @@ bot.on('message', async msg => {
   const chatId = msg.chat.id
   const find_user = await User.findOne({userId: chatId})
 
-  if (chatId === -1001980301491) {
+  if (chatId === advertisingGroupId) {
     get_advertising(msg);
   }
 

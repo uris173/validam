@@ -1,6 +1,6 @@
 const {bot, advertisingGroupId} = require('../bot')
 const Users = require('../../models/users')
-const batch_size = 2
+const batch_size = 10
 let offset = 0
 let is_sending = false
 
