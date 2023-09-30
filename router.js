@@ -10,6 +10,7 @@ router.use('/user', require('./routers/users'))
 router.use('/reviews', require('./routers/reviews'))
 router.use('/order', require('./routers/order'))
 router.use('/statistic', require('./routers/statistic'))
+router.get('/salary', require('./routers/salary'))
 
 // settings
 router.use('/bottype', require('./routers/settings/bot.type'))

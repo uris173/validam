@@ -15,7 +15,7 @@ app.use(cors())
 app.use(express.json());
 app.use(upload())
 
-require('./bot/bot')
+// require('./bot/bot')
 
 app.use('/files',express.static('files'))
 app.use(routers)
