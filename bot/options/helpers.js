@@ -20,7 +20,7 @@ const pagination_menu = (product, language) => {
 }
 
 const card = (product, language) => {
-  let img = 'https://images4.alphacoders.com/655/655929.png' // product.image[0].url
+  let img = 'https://static01.nyt.com/images/2021/02/17/dining/17tootired-grilled-cheese/17tootired-grilled-cheese-articleLarge.jpg?quality=75&auto=webp&disable=upscale' // product.image[0].url
 
   let title = language === 'ru' ? `<b>Название еды:</b> ${product.title}` : `<b>Taom nomi:</b> ${product.title_uz}`
   let weight_type = language === 'ru' ? product.weight_type : product.weight_type === 'гр.' ? 'gr.' : 'kg.'

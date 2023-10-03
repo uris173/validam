@@ -159,7 +159,7 @@ const get_contact = async (msg, user_data, chatId) => {
 
   const new_order = new Order({user: user_data._id, products: cart.products, date, order_num: `${year}${cart_count + 1}`, status: 0})
   await new_order.save()
-  // await Cart.findByIdAndUpdate(cart._id, {products: []})
+  await Cart.findByIdAndUpdate(cart._id, {products: []})
   // await User.findByIdAndUpdate(user_data._id, {action: `comment-${order._id}`})
   
   bot.sendMessage(chatId, `${res.translate.order_success}\n${res.translate.order_accepted} <b>${new_order.order_num}</b>`, {

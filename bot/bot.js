@@ -1,5 +1,5 @@
 const Telegram_Bot = require('node-telegram-bot-api')
-const TOKEN = '6071187964:AAHAUYP1Han-lxt2MZ6Bav2y94Mp-WLMw9g'
+const TOKEN = '6326200881:AAHgE9F4BRy3O2lBPpgYEnmlRlPgQkBZCiY'
 // food-bot - 6326200881:AAHgE9F4BRy3O2lBPpgYEnmlRlPgQkBZCiY
 // test-nginx-bot - 6071187964:AAHAUYP1Han-lxt2MZ6Bav2y94Mp-WLMw9g
 
