@@ -1,7 +1,5 @@
 const Telegram_Bot = require('node-telegram-bot-api')
 const TOKEN = 'token'
-// food-bot - 6326200881:AAHgE9F4BRy3O2lBPpgYEnmlRlPgQkBZCiY
-// test-nginx-bot - 6071187964:AAHAUYP1Han-lxt2MZ6Bav2y94Mp-WLMw9g
 
 const bot = new Telegram_Bot(TOKEN, {
   polling: true
